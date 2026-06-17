@@ -1,0 +1,332 @@
+/* Copyright Advanced Micro Devices, Inc.
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Klavika — AMD corporate typeface (self-hosted) */
+@font-face {
+  font-family: 'Klavika';
+  src: url('/fonts/klavika/KlavikaLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika';
+  src: url('/fonts/klavika/KlavikaLightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika';
+  src: url('/fonts/klavika/KlavikaRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika';
+  src: url('/fonts/klavika/KlavikaItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika';
+  src: url('/fonts/klavika/KlavikaMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika';
+  src: url('/fonts/klavika/KlavikaMediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika';
+  src: url('/fonts/klavika/KlavikaBold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika';
+  src: url('/fonts/klavika/KlavikaBoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Klavika Condensed */
+@font-face {
+  font-family: 'Klavika Condensed';
+  src: url('/fonts/klavika/KlavikaCondensedLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  src: url('/fonts/klavika/KlavikaCondensedLightItalic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  src: url('/fonts/klavika/KlavikaCondensedRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  src: url('/fonts/klavika/KlavikaCondensedItalic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  src: url('/fonts/klavika/KlavikaCondensedMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  src: url('/fonts/klavika/KlavikaCondensedMediumItalic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  src: url('/fonts/klavika/KlavikaCondensedBold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Klavika Condensed';
+  src: url('/fonts/klavika/KlavikaCondensedBoldItalic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* AMD Primary */
+  --amd-red: #ED1C24;
+  --amd-orange: #F26522;
+  --amd-teal: #007C97;
+
+  /* Backgrounds */
+  --bg-base: #08080A;
+  --bg-surface: #0E0E11;
+  --bg-card: #121215;
+  --bg-elevated: #151518;
+  --bg-hover: #1C1C20;
+  --bg-glass: rgba(14, 14, 17, 0.85);
+
+  /* Borders */
+  --border: #1E1E22;
+  --border-light: #2A2A2F;
+  --border-accent: rgba(237, 28, 36, 0.15);
+
+  /* Text */
+  --text-primary: #F0F0F0;
+  --text-secondary: #9D9FA2;
+  --text-muted: #8A8B8E;
+  --text-dim: #5A5A5F;
+
+  /* Severity */
+  --sev-critical: #ED1C24;
+  --sev-critical-bg: rgba(237, 28, 36, 0.08);
+  --sev-high: #F26522;
+  --sev-high-bg: rgba(242, 101, 34, 0.08);
+  --sev-medium: #007C97;
+  --sev-medium-bg: rgba(0, 124, 151, 0.08);
+  --sev-safe: #22C55E;
+  --sev-safe-bg: rgba(34, 197, 94, 0.08);
+
+  /* Accent shortcuts (component back-compat) */
+  --accent: var(--amd-red);
+  --accent-soft: rgba(237, 28, 36, 0.08);
+  --accent-glow: rgba(237, 28, 36, 0.25);
+  --teal: var(--amd-teal);
+  --teal-soft: var(--sev-medium-bg);
+  --orange: var(--amd-orange);
+  --green: var(--sev-safe);
+  --green-soft: var(--sev-safe-bg);
+  --yellow: #FACC15;
+  --yellow-soft: rgba(250, 204, 21, 0.10);
+  --red: var(--sev-critical);
+  --red-soft: var(--sev-critical-bg);
+
+  /* Legacy surface aliases — components reference these */
+  --bg: var(--bg-base);
+  --surface: var(--bg-surface);
+  --card: var(--bg-card);
+  --elevated: var(--bg-elevated);
+  --hover: var(--bg-hover);
+
+  /* Gradients */
+  --gradient-amd: linear-gradient(135deg, #ED1C24, #F26522);
+  --gradient-amd-h: linear-gradient(90deg, #ED1C24, #F26522);
+  --gradient-amd-subtle: linear-gradient(135deg, rgba(237,28,36,0.08), rgba(242,101,34,0.02));
+  --gradient-primary: var(--gradient-amd);
+  --gradient-primary-h: var(--gradient-amd-h);
+
+  /* Typography */
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-brand: 'Klavika', 'Inter', sans-serif;
+  --font-condensed: 'Klavika Condensed', 'Klavika', 'Inter', sans-serif;
+  --font-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Font size scale */
+  --fs-xs: 11px;
+  --fs-sm: 14px;
+  --fs-base: 15px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 23px;
+  --fs-2xl: 37px;
+  --fs-mono-sm: 14px;
+  --fs-mono-lg: 21px;
+
+  /* Shape */
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+
+  /* Elevation */
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.4);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 32px rgba(237, 28, 36, 0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { width: 100%; height: 100%; overflow: hidden; }
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root { width: 100%; height: 100%; }
+
+::selection { background: rgba(237, 28, 36, 0.2); color: #F0F0F0; }
+
+::-webkit-scrollbar { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+button {
+  font-family: var(--font);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+button:hover { transform: translateY(-1px); }
+button:active { transform: translateY(0); }
+
+/* Monospace utility */
+.mono { font-family: var(--font-mono) !important; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(242, 101, 34, 0.5); opacity: 1; }
+  50%  { box-shadow: 0 0 0 5px rgba(242, 101, 34, 0); opacity: 0.6; }
+  100% { box-shadow: 0 0 0 0 rgba(242, 101, 34, 0.5); opacity: 1; }
+}
+
+@keyframes gpuPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 18px rgba(237,28,36,.35))
+            drop-shadow(0 0 6px rgba(242,101,34,.20))
+            drop-shadow(0 8px 24px rgba(0,0,0,.55));
+  }
+  50% {
+    filter: drop-shadow(0 0 28px rgba(237,28,36,.50))
+            drop-shadow(0 0 12px rgba(242,101,34,.35))
+            drop-shadow(0 8px 24px rgba(0,0,0,.55));
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes agentPopOut {
+  0%   { opacity: 0; transform: translateY(8px) scale(0.96); }
+  70%  { opacity: 1; transform: translateY(-1px) scale(1.01); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes agentThinking {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50%      { transform: scale(1.08); filter: brightness(1.18); }
+}
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%            { transform: translateY(-4px); opacity: 1; }
+}
+
+@keyframes glowLine {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes shiny-text {
+  from { background-position: 200% center; }
+  to   { background-position: -200% center; }
+}
+
+.shiny-text {
+  background: linear-gradient(
+    120deg,
+    #6b6b70 0%,
+    #aaa    30%,
+    #ffffff 50%,
+    #aaa    70%,
+    #6b6b70 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shiny-text 2.5s linear infinite;
+  display: inline-block;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}

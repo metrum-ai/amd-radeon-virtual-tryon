@@ -1,0 +1,140 @@
+{
+  "gateway": {
+    "mode": "local",
+    "port": 5789,
+    "bind": "lan",
+    "auth": {
+      "mode": "token",
+      "token": "${OPENCLAW_GATEWAY_TOKEN}"
+    },
+    "http": {
+      "endpoints": {
+        "chatCompletions": { "enabled": true },
+        "responses": { "enabled": true }
+      }
+    }
+  },
+
+  "plugins": {
+    "slots": {
+      "memory": "none"
+    }
+  },
+
+  "tools": {
+    "deny": [
+      "read_file",
+      "write_file",
+      "create_file",
+      "delete_file",
+      "edit_file",
+      "str_replace_editor",
+      "str_replace_based_edit_tool",
+      "apply_patch",
+      "patch_file",
+      "exec",
+      "bash",
+      "shell",
+      "run_command",
+      "run_terminal_cmd",
+      "web_browser",
+      "browser_use",
+      "navigate",
+      "click",
+      "dir_list",
+      "list_directory",
+      "read_dir",
+      "file_search",
+      "grep_search",
+      "codebase_search",
+      "memory_search",
+      "memory_get",
+      "memory_set",
+      "memory_delete"
+    ]
+  },
+
+  "models": {
+    "providers": {
+      "ollama": {
+        "baseUrl": "${OLLAMA_BASE_URL}",
+        "apiKey": "${OLLAMA_API_KEY}",
+        "api": "ollama",
+        "timeoutSeconds": 300,
+        "models": [
+          {
+            "id": "${OLLAMA_MODEL}",
+            "name": "Qwen 3.6 27B via Ollama",
+            "reasoning": false,
+            "input": ["text"],
+            "cost": {
+              "input": 0,
+              "output": 0,
+              "cacheRead": 0,
+              "cacheWrite": 0
+            },
+            "contextWindow": 32768,
+            "maxTokens": 2048,
+            "compat": {
+              "supportsTools": false
+            },
+            "params": {
+              "num_ctx": 32768,
+              "keep_alive": "1h"
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  "agents": {
+    "defaults": {
+      "timeoutSeconds": 600,
+      "model": {
+        "primary": "${OPENCLAW_LLM_PROVIDER}/${OPENCLAW_LLM_MODEL}",
+        "fallbacks": []
+      }
+    },
+    "list": [
+      {
+        "id": "tryon-orchestrator",
+        "workspace": "/workspace/tryon_orchestrator",
+        "experimental": {
+          "localModelLean": true
+        },
+        "thinkingDefault": "minimal",
+        "fastModeDefault": true,
+        "default": true
+      },
+      {
+        "id": "logistics-agent",
+        "workspace": "/workspace/logistics_agent",
+        "experimental": {
+          "localModelLean": true
+        },
+        "thinkingDefault": "off",
+        "fastModeDefault": true
+      },
+      {
+        "id": "fashion-stylist",
+        "workspace": "/workspace/fashion_stylist",
+        "experimental": {
+          "localModelLean": true
+        },
+        "thinkingDefault": "off",
+        "fastModeDefault": true
+      },
+      {
+        "id": "customer-feedback-agent",
+        "workspace": "/workspace/customer_feedback_agent",
+        "experimental": {
+          "localModelLean": true
+        },
+        "thinkingDefault": "minimal",
+        "fastModeDefault": true
+      }
+    ]
+  }
+
+}

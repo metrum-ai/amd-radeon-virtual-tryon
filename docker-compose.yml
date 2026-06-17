@@ -1,0 +1,598 @@
+# Copyright Advanced Micro Devices, Inc.
+# 
+# SPDX-License-Identifier: MIT
+
+# ============================================================
+# Retail Virtual Try-On Platform
+# Usage: docker compose up --build   (from retail-virtual-tryon/)
+# ============================================================
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+
+  # ------------------------------------------------------------
+  # Infrastructure
+  # ------------------------------------------------------------
+  postgres:
+    image: timescale/timescaledb:2.27.2-pg16
+    container_name: vto_postgres
+    environment:
+      POSTGRES_USER: shared
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: shared_platform
+    volumes:
+      - vto_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shared -d shared_platform"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    logging: *default-logging
+    restart: unless-stopped
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    container_name: vto_valkey
+    healthcheck:
+      test: ["CMD", "valkey-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    logging: *default-logging
+    restart: unless-stopped
+
+  milvus-etcd:
+    image: quay.io/coreos/etcd:v3.5.5
+    container_name: vto_milvus_etcd
+    environment:
+      ETCD_AUTO_COMPACTION_MODE: revision
+      ETCD_AUTO_COMPACTION_RETENTION: "1000"
+      ETCD_QUOTA_BACKEND_BYTES: "4294967296"
+      ETCD_SNAPSHOT_COUNT: "50000"
+    command: >
+      etcd
+      -advertise-client-urls=http://milvus-etcd:2379
+      -listen-client-urls=http://0.0.0.0:2379
+      --data-dir /etcd
+    volumes:
+      - vto_milvus_etcd:/etcd
+    healthcheck:
+      test: ["CMD", "etcdctl", "endpoint", "health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    logging: *default-logging
+    restart: unless-stopped
+
+  milvus-rustfs:
+    image: rustfs/rustfs:1.0.0-alpha.89
+    container_name: vto_milvus_rustfs
+    command: >
+      --address :9000
+      --access-key ${RUSTFS_ACCESS_KEY}
+      --secret-key ${RUSTFS_SECRET_KEY}
+      /data
+    environment:
+      RUSTFS_ACCESS_KEY: "${RUSTFS_ACCESS_KEY}"
+      RUSTFS_SECRET_KEY: "${RUSTFS_SECRET_KEY}"
+      RUSTFS_ADDRESS: 0.0.0.0:9000
+      RUSTFS_VOLUMES: /data
+    volumes:
+      - vto_milvus_minio:/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/health || curl -f http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    logging: *default-logging
+    restart: unless-stopped
+
+  milvus:
+    image: milvusdb/milvus:v2.4.15
+    container_name: vto_milvus
+    command: milvus run standalone
+    environment:
+      ETCD_ENDPOINTS: milvus-etcd:2379
+      MINIO_ADDRESS: milvus-rustfs:9000
+      MINIO_ACCESS_KEY_ID: "${RUSTFS_ACCESS_KEY}"
+      MINIO_SECRET_ACCESS_KEY: "${RUSTFS_SECRET_KEY}"
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - vto_milvusdata:/var/lib/milvus
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9091/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    depends_on:
+      milvus-etcd:
+        condition: service_healthy
+      milvus-rustfs:
+        condition: service_healthy
+    logging: *default-logging
+    restart: unless-stopped
+
+  # ------------------------------------------------------------
+  # Metrics exporters
+  # ------------------------------------------------------------
+  amd-device-metrics-exporter:
+    image: rocm/device-metrics-exporter:v1.4.2
+    container_name: vto_amd_device_metrics
+    devices:
+      - /dev/dri:/dev/dri
+      - /dev/kfd:/dev/kfd
+    volumes:
+      - /sys:/sys:ro
+    security_opt:
+      - seccomp:unconfined
+    group_add:
+      - "${VIDEO_GID}"
+      - "${RENDER_GID}"
+    logging: *default-logging
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: vto_node_exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--path.rootfs=/rootfs"
+      - >-
+        --collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)
+    logging: *default-logging
+    restart: unless-stopped
+
+  # ------------------------------------------------------------
+  # Prometheus — scraped by frontend nginx at /prometheus/
+  # ------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:v2.51.2
+    container_name: vto_prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=7d"
+    volumes:
+      - ./virtual_tryon/configs/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    depends_on:
+      - amd-device-metrics-exporter
+      - node-exporter
+      - ollama-metrics
+    logging: *default-logging
+    restart: unless-stopped
+
+  # Ollama proxy + Prometheus exporter (NorskHelsenett/ollama-metrics, MIT).
+  # Single port :8080 — proxies /api/generate and /api/chat to Ollama and
+  # exposes /metrics. 
+  ollama-metrics:
+    image: ghcr.io/norskhelsenett/ollama-metrics@sha256:3dd32882666cf0e77272086446b5639c636fb090ac9ea629c11874200c629164
+    container_name: vto_ollama_metrics
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+      PORT: "8080"
+    depends_on:
+      ollama:
+        condition: service_healthy
+    logging: *default-logging
+    restart: unless-stopped
+
+  # ------------------------------------------------------------
+  # VTO Application services
+  # ------------------------------------------------------------
+  vto-mcp:
+    build:
+      context: .
+      dockerfile: virtual_tryon/mcp/Dockerfile.mcp
+    container_name: vto_mcp
+    environment:
+      DATABASE_URL: "${DATABASE_URL}"
+      REDIS_URL: redis://valkey:6379
+      MCP_HOST: "0.0.0.0"
+      MCP_PORT: "8001"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/healthz')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    logging: *default-logging
+    restart: unless-stopped
+
+  vto-api:
+    build:
+      context: .
+      dockerfile: virtual_tryon/api/Dockerfile.api
+    container_name: vto_api
+    environment:
+      DATABASE_URL: "${DATABASE_URL}"
+      REDIS_URL: redis://valkey:6379
+      MILVUS_HOST: milvus
+      MILVUS_PORT: "19530"
+      EMBEDDER_DEVICE: cpu
+      HF_HOME: /app/.cache/huggingface
+      HF_HUB_OFFLINE: "0"
+      TRANSFORMERS_OFFLINE: "0"
+      OPENCLAW_GATEWAY_URL: http://openclaw:5789
+      OPENCLAW_GATEWAY_TOKEN: "${OPENCLAW_GATEWAY_TOKEN}"
+      OPENCLAW_BACKEND_MODEL: "${OPENCLAW_BACKEND_MODEL:-}"
+      OPENCLAW_GATEWAY_TIMEOUT: "${OPENCLAW_GATEWAY_TIMEOUT:-300}"
+      OPENCLAW_MAX_COMPLETION_TOKENS: "${OPENCLAW_MAX_COMPLETION_TOKENS:-1024}"
+      VTO_TTS_BASE_URL: http://vto-tts:13305
+      VTO_TTS_API_PREFIX: /api/v1
+      VTO_TTS_MODEL: "${VTO_TTS_MODEL:-kokoro-v1}"
+      VTO_TTS_TIMEOUT: "${VTO_TTS_TIMEOUT:-300}"
+      VTO_TTS_VOICE: "${VTO_TTS_VOICE:-af_bella}"
+      OLLAMA_BASE_URL: "${OLLAMA_BASE_URL:-http://ollama-metrics:8080}"
+      OLLAMA_LLM_MODEL: "${OLLAMA_LLM_MODEL:-qwen3.6:27b}"
+    volumes:
+      - ${HF_CACHE_DIR}:/app/.cache/huggingface
+    depends_on:
+      postgres:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+      milvus:
+        condition: service_healthy
+      vto-mcp:
+        condition: service_healthy
+      openclaw:
+        condition: service_healthy
+      vto-tts:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8088/healthz')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    logging: *default-logging
+    restart: unless-stopped
+
+  vto-tts:
+    image: ghcr.io/lemonade-sdk/lemonade-server:v10.6.0
+    container_name: vto_tts
+    environment:
+      LEMONADE_LLAMACPP: cpu
+    # Pin to 16 physical cores (80-95) on the Threadripper 9995WX.
+    # Kokoro TTS is CPU-only; cpuset prevents scheduler scatter across all 192 logical CPUs.
+    # lemonade-config.json also sets --cpu-strict 1 for the llamacpp backend.
+    cpuset: "80-95"
+    cpu_shares: 1024
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:13305/api/v1/models')"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    logging: *default-logging
+    restart: unless-stopped
+    volumes:
+      - ${HF_CACHE_DIR}:/root/.cache/huggingface
+      - lemonade_llama:/opt/lemonade/llama
+      - lemonade_recipe:/root/.cache/lemonade
+      - ./virtual_tryon/configs/lemonade-config.json:/root/.cache/lemonade/config.json
+
+  openclaw:
+    build:
+      context: .
+      dockerfile: virtual_tryon/openclaw/Dockerfile.openclaw
+    container_name: vto_openclaw
+    environment:
+      OLLAMA_BASE_URL: "${OLLAMA_BASE_URL:-http://ollama-metrics:8080}"
+      OLLAMA_API_KEY: "${OLLAMA_API_KEY}"
+      OLLAMA_MODEL: "${OLLAMA_MODEL:-qwen3.6:27b}"
+      OPENCLAW_LLM_PROVIDER: "${OPENCLAW_LLM_PROVIDER:-ollama}"
+      OPENCLAW_LLM_MODEL: "${OPENCLAW_LLM_MODEL:-qwen3.6:27b}"
+      OPENCLAW_GATEWAY_TOKEN: "${OPENCLAW_GATEWAY_TOKEN}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./virtual_tryon/openclaw/openclaw.json:/home/node/.openclaw/openclaw.json:ro
+      - ./virtual_tryon/openclaw/workspace:/workspace
+      - ./virtual_tryon/openclaw/skills:/workspace/skills:ro
+    depends_on:
+      - vto-mcp
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get({host:'localhost',port:5789,path:'/'}, r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    logging: *default-logging
+    restart: unless-stopped
+
+  # ------------------------------------------------------------
+  # VTO Frontend — nginx serves the React SPA and proxies
+  # /api/ → api:8000 and /prometheus/ → prometheus:9090
+  # ------------------------------------------------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./catalogue:/usr/share/nginx/output:ro
+      - ./virtual_tryon/fashion-pipeline/demo-videos:/usr/share/nginx/demo-videos:ro
+    depends_on:
+      vto-api:
+        condition: service_healthy
+      pipeline:
+        condition: service_healthy
+      openclaw:
+        condition: service_started
+      prometheus:
+        condition: service_started
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:5173/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    logging: *default-logging
+    restart: unless-stopped
+
+  # ------------------------------------------------------------
+  # Fashion pipeline — FASHN inference servers, Ollama, ACE-Step, pipeline API
+  # GPU allocation: GPU 0 → fashn0, GPU 1 → fashn1, GPU 2 → ollama, GPU 3 → acestep
+  # ------------------------------------------------------------
+  fashn0:
+    build:
+      context: .
+      dockerfile: virtual_tryon/fashion-pipeline/Dockerfile
+    container_name: vto_fashn0
+    image: fashion-fashn-server:latest
+    entrypoint:
+      - python
+      - /app/fashn_server.py
+    command:
+      - --weights-dir=/app/weights
+      - --device=cuda:0
+      - --port=7860
+      - --host=0.0.0.0
+    environment:
+      HSA_OVERRIDE_GFX_VERSION: "12.0.1"
+      ROCR_VISIBLE_DEVICES: "0"
+      TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL: "1"
+      HF_TOKEN: "${HF_TOKEN}"
+    volumes:
+      - fashn_weights:/app/weights
+      - ${HF_CACHE_DIR}:/home/appuser/.cache/huggingface
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      - "${VIDEO_GID}"
+      - "${RENDER_GID}"
+    security_opt:
+      - seccomp:unconfined
+    ipc: host
+    shm_size: "4g"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7860/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
+    logging: *default-logging
+    restart: unless-stopped
+
+  fashn1:
+    build:
+      context: .
+      dockerfile: virtual_tryon/fashion-pipeline/Dockerfile
+    container_name: vto_fashn1
+    image: fashion-fashn-server:latest
+    entrypoint:
+      - python
+      - /app/fashn_server.py
+    command:
+      - --weights-dir=/app/weights
+      - --device=cuda:0
+      - --port=7861
+      - --host=0.0.0.0
+    environment:
+      HSA_OVERRIDE_GFX_VERSION: "12.0.1"
+      ROCR_VISIBLE_DEVICES: "1"
+      TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL: "1"
+      HF_TOKEN: "${HF_TOKEN}"
+    volumes:
+      - fashn_weights:/app/weights
+      - ${HF_CACHE_DIR}:/home/appuser/.cache/huggingface
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      - "${VIDEO_GID}"
+      - "${RENDER_GID}"
+    security_opt:
+      - seccomp:unconfined
+    ipc: host
+    shm_size: "4g"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7861/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
+    logging: *default-logging
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:0.30.6-rocm
+    container_name: vto_ollama
+    environment:
+      HSA_OVERRIDE_GFX_VERSION: "12.0.1"
+      ROCR_VISIBLE_DEVICES: "2,3"
+      OLLAMA_HOST: "0.0.0.0"
+      OLLAMA_KEEP_ALIVE: "30m"
+      OLLAMA_NUM_PARALLEL: "1"
+    volumes:
+      - ${OLLAMA_DATA_DIR}:/root/.ollama
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      - "${VIDEO_GID}"
+      - "${RENDER_GID}"
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    logging: *default-logging
+    restart: unless-stopped
+
+  acestep:
+    build:
+      context: "${ACESTEP_BUILD_CONTEXT}"
+      dockerfile: acestep.Dockerfile
+    container_name: vto_acestep
+    image: fashion-acestep:latest
+    environment:
+      ACESTEP_MODE: api
+      ACESTEP_LM_BACKEND: pt
+      ACESTEP_CONFIG_PATH: /app/acestep-models/acestep-v15-turbo
+      ACESTEP_LM_MODEL_PATH: /app/acestep-models/acestep-5Hz-lm-1.7B
+      ACESTEP_CHECKPOINTS_DIR: /app/acestep-models
+      ACESTEP_TMPDIR: /tmp/acestep
+      ACESTEP_API_HOST: "0.0.0.0"
+      ACESTEP_API_PORT: "8001"
+      ACESTEP_API_KEY: "${ACESTEP_API_KEY}"
+      TOKENIZERS_PARALLELISM: "false"
+      HSA_OVERRIDE_GFX_VERSION: "12.0.1"
+      TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL: "1"
+      ROCR_VISIBLE_DEVICES: "3"
+      HF_TOKEN: "${HF_TOKEN}"
+      ACESTEP_NO_INIT: "false"
+    command:
+      - bash
+      - -c
+      - |
+        sed -i 's|checkpoint_dir = os.path.join(project_root, "checkpoints")|checkpoint_dir = os.environ.get("ACESTEP_CHECKPOINTS_DIR", os.path.join(project_root, "checkpoints"))|' \
+          /opt/venv/lib/python3.12/site-packages/acestep/api/startup_model_init.py \
+          /opt/venv/lib/python3.12/site-packages/acestep/api/http/model_init_service.py
+        exec acestep-api
+    volumes:
+      - ${ACESTEP_CACHE_DIR}:/app/acestep-models
+      - ${HF_CACHE_DIR}:/root/.cache/huggingface
+      - ${ACESTEP_CACHE_DIR}:/opt/venv/lib/python3.12/site-packages/checkpoints
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      - "${VIDEO_GID}"
+      - "${RENDER_GID}"
+    security_opt:
+      - seccomp:unconfined
+    ipc: host
+    shm_size: "4g"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 50s
+      timeout: 20s
+      retries: 10
+      start_period: 500s
+    logging: *default-logging
+    restart: unless-stopped
+
+  pipeline:
+    build:
+      context: .
+      dockerfile: virtual_tryon/fashion-pipeline/Dockerfile
+    container_name: vto_pipeline
+    image: fashion-pipeline:latest
+    entrypoint:
+      - python
+      - -m
+      - uvicorn
+      - pipeline_api:app
+      - --host=0.0.0.0
+      - --port=8080
+    depends_on:
+      fashn0:
+        condition: service_healthy
+      fashn1:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+      acestep:
+        condition: service_healthy
+    environment:
+      FASHN_SERVER_URLS: "${FASHN_SERVER_URLS:-http://fashn0:7860,http://fashn1:7861}"
+      WEIGHTS_DIR: "/app/weights"
+      LLM_API_BASE: "${LLM_API_BASE:-http://ollama-metrics:8080/v1}"
+      LLM_MODEL: "${LLM_MODEL:-qwen3.6:27b}"
+      ACESTEP_URL: "http://acestep:8001"
+      ACESTEP_API_KEY: "${ACESTEP_API_KEY}"
+      DEMO_VIDEOS_INPUT_DIR: "/app/demo-videos"
+      HSA_OVERRIDE_GFX_VERSION: "12.0.1"
+      ROCR_VISIBLE_DEVICES: "0"
+      TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL: "1"
+      NUM_FRAMES: "${NUM_FRAMES:-4}"
+      CANDIDATE_FRAMES: "${CANDIDATE_FRAMES:-12}"
+      FRAME_DURATION: "${FRAME_DURATION:-2.5}"
+      TIMESTEPS: "${TIMESTEPS:-8}"
+      SEED: "${SEED:-42}"
+      SKIP_MUSIC: "${SKIP_MUSIC:-0}"
+      MUSIC_PROMPT: "${MUSIC_PROMPT:-}"
+      HF_TOKEN: "${HF_TOKEN}"
+    volumes:
+      - fashn_weights:/app/weights:ro
+      - ${INPUT_DIR:-./catalogue}:/app/input:ro
+      - ${DEMO_VIDEOS_DIR:-./virtual_tryon/fashion-pipeline/demo-videos}:/app/demo-videos:ro
+      - ${OUTPUT_DIR:-./output}:/app/output
+      - ${HF_CACHE_DIR}:/home/appuser/.cache/huggingface
+    devices:
+      - /dev/kfd:/dev/kfd
+      - /dev/dri:/dev/dri
+    group_add:
+      - "${VIDEO_GID}"
+      - "${RENDER_GID}"
+    security_opt:
+      - seccomp:unconfined
+    ipc: host
+    shm_size: "8g"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    logging: *default-logging
+    restart: unless-stopped
+
+volumes:
+  vto_pgdata:
+  vto_milvus_etcd:
+  vto_milvus_minio:
+  vto_milvusdata:
+  lemonade_llama:
+  lemonade_recipe:
+  prometheus_data:
+  fashn_weights:
+  ollama_data:
+
+networks:
+  default:
+    name: vto_net

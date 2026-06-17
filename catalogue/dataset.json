@@ -1,0 +1,3372 @@
+{
+  "store": {
+    "store_name": "Meridian",
+    "store_id": "meridian-us",
+    "website": "www.meridianstyle.com",
+    "currency": "USD"
+  },
+  "branches": [
+    {
+      "branch_id": "branch_nyc",
+      "branch_name": "Meridian New York",
+      "city": "New York",
+      "state": "NY",
+      "address": "680 Fifth Ave, New York, NY 10019"
+    },
+    {
+      "branch_id": "branch_la",
+      "branch_name": "Meridian Los Angeles",
+      "city": "Los Angeles",
+      "state": "CA",
+      "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210"
+    },
+    {
+      "branch_id": "branch_chi",
+      "branch_name": "Meridian Chicago",
+      "city": "Chicago",
+      "state": "IL",
+      "address": "830 N Michigan Ave, Chicago, IL 60611"
+    },
+    {
+      "branch_id": "branch_hou",
+      "branch_name": "Meridian Houston",
+      "city": "Houston",
+      "state": "TX",
+      "address": "5085 Westheimer Rd, Houston, TX 77056"
+    },
+    {
+      "branch_id": "branch_atl",
+      "branch_name": "Meridian Atlanta",
+      "city": "Atlanta",
+      "state": "GA",
+      "address": "3393 Peachtree Rd NE, Atlanta, GA 30326"
+    },
+    {
+      "branch_id": "branch_mia",
+      "branch_name": "Meridian Miami",
+      "city": "Miami",
+      "state": "FL",
+      "address": "1601 Collins Ave, Miami Beach, FL 33139"
+    },
+    {
+      "branch_id": "branch_bos",
+      "branch_name": "Meridian Boston",
+      "city": "Boston",
+      "state": "MA",
+      "address": "200 Newbury St, Boston, MA 02116"
+    },
+    {
+      "branch_id": "branch_sea",
+      "branch_name": "Meridian Seattle",
+      "city": "Seattle",
+      "state": "WA",
+      "address": "500 Pine St, Seattle, WA 98101"
+    },
+    {
+      "branch_id": "branch_den",
+      "branch_name": "Meridian Denver",
+      "city": "Denver",
+      "state": "CO",
+      "address": "2825 E 2nd Ave, Denver, CO 80206"
+    },
+    {
+      "branch_id": "branch_aus",
+      "branch_name": "Meridian Austin",
+      "city": "Austin",
+      "state": "TX",
+      "address": "3401 Esperanza Crossing, Austin, TX 78758"
+    },
+    {
+      "branch_id": "branch_sd",
+      "branch_name": "Meridian San Diego",
+      "city": "San Diego",
+      "state": "CA",
+      "address": "7007 Friars Rd, San Diego, CA 92108"
+    },
+    {
+      "branch_id": "branch_dal",
+      "branch_name": "Meridian Dallas",
+      "city": "Dallas",
+      "state": "TX",
+      "address": "2440 Victory Park Ln, Dallas, TX 75204"
+    },
+    {
+      "branch_id": "branch_nas",
+      "branch_name": "Meridian Nashville",
+      "city": "Nashville",
+      "state": "TN",
+      "address": "2126 Adelicia St, Nashville, TN 37212"
+    },
+    {
+      "branch_id": "branch_por",
+      "branch_name": "Meridian Portland",
+      "city": "Portland",
+      "state": "OR",
+      "address": "1030 NW 11th Ave, Portland, OR 97209"
+    },
+    {
+      "branch_id": "branch_phi",
+      "branch_name": "Meridian Philadelphia",
+      "city": "Philadelphia",
+      "state": "PA",
+      "address": "1806 Chestnut St, Philadelphia, PA 19103"
+    }
+  ],
+  "garments": [
+    {
+      "garment_id": "01",
+      "name": "Optic White Heavyweight Crewneck Tee",
+      "collection": "Meridian Essentials",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "optic white",
+      "price_usd": 28.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/tshirt/01_5224197975549765591.png",
+      "description": "Photoreal ecommerce studio shot of an adult male model in a plain optic white heavyweight crewneck t-shirt, straight-on pose, white seamless background, neckline ribbing, sleeve hems and dense cotton texture clearly visible, product fills the frame from head to mid-thigh, no graphics or logos.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 4,
+          "display_price_usd": 28.99,
+          "available_to_promise": 4
+        },
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 11,
+          "display_price_usd": 28.99,
+          "available_to_promise": 11
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 18,
+          "display_price_usd": 28.99,
+          "available_to_promise": 18
+        }
+      ]
+    },
+    {
+      "garment_id": "02",
+      "name": "Washed Charcoal Oversized Boxy Tee",
+      "collection": "Meridian Street",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "washed charcoal",
+      "price_usd": 34.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/tshirt/02_2648564983630976313.png",
+      "description": "Clean catalog photograph of a male model wearing a washed charcoal oversized t-shirt with dropped shoulders and a boxy streetwear fit, soft side lighting, pure white backdrop, subtle cotton fading, straight hem and relaxed drape visible.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 7,
+          "display_price_usd": 34.99,
+          "available_to_promise": 7
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 14,
+          "display_price_usd": 34.99,
+          "available_to_promise": 14
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 34.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "03",
+      "name": "Rust Orange Pocket T-Shirt",
+      "collection": "Meridian Essentials",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "rust orange",
+      "price_usd": 24.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/men/tshirt/03_4852649507260780528.png",
+      "description": "Minimal studio fashion image of a man in a rust orange pocket t-shirt, natural stance with arms relaxed, white background, single chest pocket stitching, matte jersey texture, realistic folds around shoulder and waist.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 10,
+          "display_price_usd": 24.99,
+          "available_to_promise": 10
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 24.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 24,
+          "display_price_usd": 24.99,
+          "available_to_promise": 24
+        }
+      ]
+    },
+    {
+      "garment_id": "04",
+      "name": "Deep Navy Fitted V-Neck Tee",
+      "collection": "Meridian Essentials",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "deep navy",
+      "price_usd": 26.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/tshirt/04_275055021358821757.png",
+      "description": "Sharp product photo of a male model wearing a deep navy fitted v-neck t-shirt, clean ecommerce lighting, white seamless set, close attention to neckline shape, fitted chest, short sleeves and smooth cotton stretch fabric.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 26.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_atl",
+          "branch_name": "Meridian Atlanta",
+          "city": "Atlanta",
+          "state": "GA",
+          "address": "3393 Peachtree Rd NE, Atlanta, GA 30326",
+          "in_stock": true,
+          "stock_on_hand": 20,
+          "display_price_usd": 26.99,
+          "available_to_promise": 20
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 27,
+          "display_price_usd": 26.99,
+          "available_to_promise": 27
+        }
+      ]
+    },
+    {
+      "garment_id": "05",
+      "name": "Sage Green Slub Cotton Henley",
+      "collection": "Meridian Casual",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "sage green",
+      "price_usd": 34.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/tshirt/05_252011316792929998.png",
+      "description": "Full upper-body catalog image of a man in a sage green slub cotton henley t-shirt, three-button placket open at the top, textured knit surface, casual relaxed fit, white background, no accessories.",
+      "available_at": [
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": true,
+          "stock_on_hand": 16,
+          "display_price_usd": 34.99,
+          "available_to_promise": 16
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 23,
+          "display_price_usd": 34.99,
+          "available_to_promise": 23
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 30,
+          "display_price_usd": 34.99,
+          "available_to_promise": 30
+        }
+      ]
+    },
+    {
+      "garment_id": "06",
+      "name": "Soft Lavender Longline Crewneck Tee",
+      "collection": "Meridian Essentials",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "soft lavender",
+      "price_usd": 29.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/tshirt/06_3319567916353868785.png",
+      "description": "Studio apparel photograph of a male model in a soft lavender longline t-shirt, modern elongated hem, crew neckline, lightweight drape over black trousers, white seamless background, garment unobstructed.",
+      "available_at": [
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 19,
+          "display_price_usd": 29.99,
+          "available_to_promise": 19
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 26,
+          "display_price_usd": 29.99,
+          "available_to_promise": 26
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 29.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "07",
+      "name": "Burgundy Raglan Athletic Tee",
+      "collection": "Meridian Active",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "burgundy",
+      "price_usd": 36.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/tshirt/07_8956566887276160665.png",
+      "description": "Ecommerce product image of a man wearing a burgundy raglan-sleeve athletic t-shirt, slightly angled pose, white studio backdrop, seam lines across shoulders, breathable performance knit texture, clean fit.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 36.99,
+          "available_to_promise": 22
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 36.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": true,
+          "stock_on_hand": 6,
+          "display_price_usd": 36.99,
+          "available_to_promise": 6
+        }
+      ]
+    },
+    {
+      "garment_id": "08",
+      "name": "Pale Sand Relaxed Fit Tee",
+      "collection": "Meridian Essentials",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "pale sand",
+      "price_usd": 22.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/men/tshirt/08_8805901947402921746.png",
+      "description": "High-resolution fashion catalog photo of a male model in a pale sand relaxed t-shirt, warm neutral cotton jersey, natural wrinkles at hem and sleeve, centered composition on a white seamless background.",
+      "available_at": [
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 22.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": true,
+          "stock_on_hand": 2,
+          "display_price_usd": 22.99,
+          "available_to_promise": 2
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 9,
+          "display_price_usd": 22.99,
+          "available_to_promise": 9
+        }
+      ]
+    },
+    {
+      "garment_id": "09",
+      "name": "Muted Teal Waffle-Knit Crewneck Tee",
+      "collection": "Meridian Casual",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "muted teal",
+      "price_usd": 31.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/tshirt/09_399231332554939878.png",
+      "description": "Crisp studio shot of a man wearing a muted teal waffle-knit t-shirt, short sleeves, crew neck, visible waffle texture and soft structure, white background, commercial product photography style.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 28,
+          "display_price_usd": 31.99,
+          "available_to_promise": 28
+        },
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": true,
+          "stock_on_hand": 5,
+          "display_price_usd": 31.99,
+          "available_to_promise": 5
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 12,
+          "display_price_usd": 31.99,
+          "available_to_promise": 12
+        }
+      ]
+    },
+    {
+      "garment_id": "10",
+      "name": "Black Premium Pima Cotton Tee",
+      "collection": "Meridian Luxe",
+      "gender": "men",
+      "category": "tshirt",
+      "color": "black",
+      "price_usd": 44.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/tshirt/10_8135641313400551075.png",
+      "description": "Realistic ecommerce photo of a male model in a black premium pima cotton t-shirt, tailored shoulder fit, clean crew neckline, subtle fabric sheen, white seamless backdrop, sharp product detail.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 1,
+          "display_price_usd": 44.99,
+          "available_to_promise": 1
+        },
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 8,
+          "display_price_usd": 44.99,
+          "available_to_promise": 8
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 44.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 44.99,
+          "available_to_promise": 22
+        }
+      ]
+    },
+    {
+      "garment_id": "11",
+      "name": "Sky Blue Oxford Button-Down Shirt",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "shirt",
+      "color": "sky blue",
+      "price_usd": 54.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/11_121045146015003758.png",
+      "description": "Catalog studio photograph of a male model wearing a sky blue Oxford button-down shirt, sleeves casually rolled, crisp collar, pearl buttons, tucked-front styling, white background, woven texture and button placket in sharp focus.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 4,
+          "display_price_usd": 54.99,
+          "available_to_promise": 4
+        },
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 54.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 18,
+          "display_price_usd": 54.99,
+          "available_to_promise": 18
+        }
+      ]
+    },
+    {
+      "garment_id": "12",
+      "name": "Ivory Linen Camp Collar Resort Shirt",
+      "collection": "Meridian Casual",
+      "gender": "men",
+      "category": "shirt",
+      "color": "ivory",
+      "price_usd": 64.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/12_4514701088371413305.png",
+      "description": "Photoreal ecommerce image of a man in an ivory linen resort shirt, open camp collar, relaxed short sleeves, breathable wrinkles, straight hem, white seamless set, summer casual styling without accessories.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 64.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": true,
+          "stock_on_hand": 14,
+          "display_price_usd": 64.99,
+          "available_to_promise": 14
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 21,
+          "display_price_usd": 64.99,
+          "available_to_promise": 21
+        }
+      ]
+    },
+    {
+      "garment_id": "13",
+      "name": "Forest Green Brushed Flannel Shirt",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "shirt",
+      "color": "forest green",
+      "price_usd": 58.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/13_2048763013042691743.png",
+      "description": "Studio product photo of a male model in a forest green brushed flannel shirt, buttoned front, twin chest pockets, soft plaid-free fabric texture, neutral pose, plain white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": true,
+          "stock_on_hand": 10,
+          "display_price_usd": 58.99,
+          "available_to_promise": 10
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 17,
+          "display_price_usd": 58.99,
+          "available_to_promise": 17
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": true,
+          "stock_on_hand": 24,
+          "display_price_usd": 58.99,
+          "available_to_promise": 24
+        }
+      ]
+    },
+    {
+      "garment_id": "14",
+      "name": "Terracotta Long-Sleeve Poplin Shirt",
+      "collection": "Meridian Essentials",
+      "gender": "men",
+      "category": "shirt",
+      "color": "terracotta",
+      "price_usd": 52.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/14_7640084821634480894.png",
+      "description": "Sharp fashion catalog shot of a man wearing a terracotta long-sleeve poplin shirt, structured spread collar, smooth cuffs, clean button line, tailored fit, white seamless backdrop with soft shadow.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 13,
+          "display_price_usd": 52.99,
+          "available_to_promise": 13
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": true,
+          "stock_on_hand": 20,
+          "display_price_usd": 52.99,
+          "available_to_promise": 20
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 52.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "15",
+      "name": "Dark Indigo Denim Snap-Button Shirt",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "shirt",
+      "color": "dark indigo",
+      "price_usd": 68.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/15_6337143125283940303.png",
+      "description": "Ecommerce studio photograph of a male model in a dark indigo denim shirt, snap buttons, western-style chest pockets, sturdy denim grain visible, sleeves down, white background, no jacket.",
+      "available_at": [
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 16,
+          "display_price_usd": 68.99,
+          "available_to_promise": 16
+        },
+        {
+          "branch_id": "branch_atl",
+          "branch_name": "Meridian Atlanta",
+          "city": "Atlanta",
+          "state": "GA",
+          "address": "3393 Peachtree Rd NE, Atlanta, GA 30326",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 68.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": true,
+          "stock_on_hand": 30,
+          "display_price_usd": 68.99,
+          "available_to_promise": 30
+        }
+      ]
+    },
+    {
+      "garment_id": "16",
+      "name": "Olive Green Utility Overshirt",
+      "collection": "Meridian Street",
+      "gender": "men",
+      "category": "shirt",
+      "color": "olive green",
+      "price_usd": 74.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/16_77454298685278382.png",
+      "description": "Clean product image of a man wearing an olive green overshirt, heavyweight cotton twill, large utility pockets, open collar, relaxed layering silhouette, white seamless background, garment centered.",
+      "available_at": [
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 74.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 26,
+          "display_price_usd": 74.99,
+          "available_to_promise": 26
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 3,
+          "display_price_usd": 74.99,
+          "available_to_promise": 3
+        }
+      ]
+    },
+    {
+      "garment_id": "17",
+      "name": "Maroon Mandarin Collar Shirt",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "shirt",
+      "color": "maroon",
+      "price_usd": 56.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/17_1081706698718828951.png",
+      "description": "Commercial studio photo of a male model in a maroon mandarin-collar shirt, minimal concealed placket, long sleeves, smooth matte fabric, front-facing pose, clean white ecommerce background.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 56.99,
+          "available_to_promise": 22
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 29,
+          "display_price_usd": 56.99,
+          "available_to_promise": 29
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 6,
+          "display_price_usd": 56.99,
+          "available_to_promise": 6
+        }
+      ]
+    },
+    {
+      "garment_id": "18",
+      "name": "Slate Gray Chambray Shirt",
+      "collection": "Meridian Casual",
+      "gender": "men",
+      "category": "shirt",
+      "color": "slate gray",
+      "price_usd": 48.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/18_1107632257687807931.png",
+      "description": "High-detail catalog image of a man wearing a slate gray chambray shirt, soft collar, visible topstitching, lightweight woven texture, natural casual stance, white seamless studio setting.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 25,
+          "display_price_usd": 48.99,
+          "available_to_promise": 25
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 2,
+          "display_price_usd": 48.99,
+          "available_to_promise": 2
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 48.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "19",
+      "name": "Mustard Yellow Cuban Collar Shirt",
+      "collection": "Meridian Casual",
+      "gender": "men",
+      "category": "shirt",
+      "color": "mustard yellow",
+      "price_usd": 44.99,
+      "sizes_available": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/19_5828773842476412223.png",
+      "description": "Photoreal product shot of a male model in a mustard yellow short-sleeve Cuban collar shirt, open neckline, relaxed boxy fit, visible buttons, crisp cotton texture, white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 28,
+          "display_price_usd": 44.99,
+          "available_to_promise": 28
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 44.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 12,
+          "display_price_usd": 44.99,
+          "available_to_promise": 12
+        }
+      ]
+    },
+    {
+      "garment_id": "20",
+      "name": "White Fine-Pinstripe Dress Shirt",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "shirt",
+      "color": "white pinstripe",
+      "price_usd": 79.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/shirt/20_5957243958431060124.png",
+      "description": "Front-facing studio ecommerce image of a male model wearing a white fine-pinstripe dress shirt, body facing camera directly, chest buttons and front placket fully visible, sharp collar, button cuffs, subtle vertical stripe detail, tailored silhouette, pure white backdrop, explicitly not side view, not back view.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 79.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 8,
+          "display_price_usd": 79.99,
+          "available_to_promise": 8
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 15,
+          "display_price_usd": 79.99,
+          "available_to_promise": 15
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 79.99,
+          "available_to_promise": 22
+        }
+      ]
+    },
+    {
+      "garment_id": "21",
+      "name": "Stone Beige Slim Chinos",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "stone beige",
+      "price_usd": 59.99,
+      "sizes_available": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "image_path": "output/men/pants_shorts/21_6526311010573745627.png",
+      "description": "Waist-to-feet ecommerce photo of a male model wearing stone beige slim chinos, clean waistband, side pockets, tapered leg, cotton twill grain, white seamless background, lower garment fully visible.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 4,
+          "display_price_usd": 59.99,
+          "available_to_promise": 4
+        },
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 11,
+          "display_price_usd": 59.99,
+          "available_to_promise": 11
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 18,
+          "display_price_usd": 59.99,
+          "available_to_promise": 18
+        }
+      ]
+    },
+    {
+      "garment_id": "22",
+      "name": "Charcoal Pleated Wool Blend Trousers",
+      "collection": "Meridian Luxe",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "charcoal",
+      "price_usd": 94.99,
+      "sizes_available": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "image_path": "output/men/pants_shorts/22_2594297682558364280.png",
+      "description": "Catalog lower-body shot of a man in charcoal pleated trousers, high-quality wool blend, pressed front crease, relaxed straight leg, polished waistband detail, white studio backdrop.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 7,
+          "display_price_usd": 94.99,
+          "available_to_promise": 7
+        },
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 14,
+          "display_price_usd": 94.99,
+          "available_to_promise": 14
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 94.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "23",
+      "name": "Raw Indigo Straight-Leg Jeans",
+      "collection": "Meridian Casual",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "raw indigo",
+      "price_usd": 74.99,
+      "sizes_available": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "image_path": "output/men/pants_shorts/23_3861978767642453735.png",
+      "description": "Full-body front-facing ecommerce studio photo of a male model looking at the camera, wearing raw indigo straight-leg jeans as the main product. Camera is directly in front of the model. Jeans front side visible: center fly, front button, front waistband, front rise, front scoop pockets and straight legs. Model stands with chest and toes facing the viewer. No rear pockets, no backside, no turned-away pose, pure white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 10,
+          "display_price_usd": 74.99,
+          "available_to_promise": 10
+        },
+        {
+          "branch_id": "branch_atl",
+          "branch_name": "Meridian Atlanta",
+          "city": "Atlanta",
+          "state": "GA",
+          "address": "3393 Peachtree Rd NE, Atlanta, GA 30326",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 74.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 24,
+          "display_price_usd": 74.99,
+          "available_to_promise": 24
+        }
+      ]
+    },
+    {
+      "garment_id": "24",
+      "name": "Olive Cargo Pants",
+      "collection": "Meridian Street",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "olive",
+      "price_usd": 64.99,
+      "sizes_available": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36"
+      ],
+      "image_path": "output/men/pants_shorts/24_3294105002421931931.png",
+      "description": "Photoreal ecommerce image of olive cargo pants on a male model, flap pockets on thighs, drawcord ankle cuffs, durable ripstop texture, neutral stance, white seamless background.",
+      "available_at": [
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 64.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 20,
+          "display_price_usd": 64.99,
+          "available_to_promise": 20
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 27,
+          "display_price_usd": 64.99,
+          "available_to_promise": 27
+        }
+      ]
+    },
+    {
+      "garment_id": "25",
+      "name": "Khaki Tailored Shorts",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "khaki",
+      "price_usd": 44.99,
+      "sizes_available": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "image_path": "output/men/pants_shorts/25_349185130932577706.png",
+      "description": "Clean fashion catalog photograph of khaki tailored shorts, adult male model, knee-length hem, crisp front crease, belt loops, side pockets, white backdrop, no distracting upper garment.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 16,
+          "display_price_usd": 44.99,
+          "available_to_promise": 16
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": true,
+          "stock_on_hand": 23,
+          "display_price_usd": 44.99,
+          "available_to_promise": 23
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 30,
+          "display_price_usd": 44.99,
+          "available_to_promise": 30
+        }
+      ]
+    },
+    {
+      "garment_id": "26",
+      "name": "Black Tapered Jogger Pants",
+      "collection": "Meridian Active",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "black",
+      "price_usd": 54.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/men/pants_shorts/26_5277316065171581299.png",
+      "description": "Camera positioned directly in front of a male model, lower-body studio shot of black tapered jogger pants. The model faces the viewer with toes pointed toward the camera. Front elastic waistband, front drawcord area, front pocket openings, tapered legs and cuffed ankles are clearly visible. No backside, no rear waistband, no turned-away pose, white seamless set.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 19,
+          "display_price_usd": 54.99,
+          "available_to_promise": 19
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 26,
+          "display_price_usd": 54.99,
+          "available_to_promise": 26
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 54.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "27",
+      "name": "Cream Linen Drawstring Trousers",
+      "collection": "Meridian Casual",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "cream",
+      "price_usd": 69.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/men/pants_shorts/27_1923978517563082811.png",
+      "description": "Ecommerce photograph of a male model in cream linen drawstring trousers, relaxed wide leg, visible rope tie, airy linen wrinkles, waist-to-feet crop, white studio background.",
+      "available_at": [
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 69.99,
+          "available_to_promise": 22
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 69.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 6,
+          "display_price_usd": 69.99,
+          "available_to_promise": 6
+        }
+      ]
+    },
+    {
+      "garment_id": "28",
+      "name": "Navy Chino Shorts",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "navy",
+      "price_usd": 39.99,
+      "sizes_available": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "image_path": "output/men/pants_shorts/28_8130268440632007718.png",
+      "description": "Catalog image of navy chino shorts on a male model, above-knee length, flat front, clean pockets, crisp cotton twill, lower body centered on a pure white backdrop.",
+      "available_at": [
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 39.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 2,
+          "display_price_usd": 39.99,
+          "available_to_promise": 2
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 9,
+          "display_price_usd": 39.99,
+          "available_to_promise": 9
+        }
+      ]
+    },
+    {
+      "garment_id": "29",
+      "name": "Chocolate Brown Corduroy Trousers",
+      "collection": "Meridian Tailored",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "chocolate brown",
+      "price_usd": 79.99,
+      "sizes_available": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36"
+      ],
+      "image_path": "output/men/pants_shorts/29_2466172546715980675.png",
+      "description": "Camera positioned directly in front of a male model, studio fashion photo of chocolate brown corduroy trousers. The model faces the viewer with toes pointed toward the camera. Center front button closure, front waistband, front pockets, front rise and straight-leg silhouette are clearly visible. No rear pockets, no backside, no back view, white seamless background.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 28,
+          "display_price_usd": 79.99,
+          "available_to_promise": 28
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 5,
+          "display_price_usd": 79.99,
+          "available_to_promise": 5
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 12,
+          "display_price_usd": 79.99,
+          "available_to_promise": 12
+        }
+      ]
+    },
+    {
+      "garment_id": "30",
+      "name": "Light Gray Tailored Summer Trousers",
+      "collection": "Meridian Luxe",
+      "gender": "men",
+      "category": "pants_shorts",
+      "color": "light gray",
+      "price_usd": 84.99,
+      "sizes_available": [
+        "28",
+        "30",
+        "32",
+        "34",
+        "36",
+        "38"
+      ],
+      "image_path": "output/men/pants_shorts/30_96455103024841955.png",
+      "description": "Product-focused lower-body image of a male model in light gray tailored summer trousers, smooth drape, ankle-length hem, pressed crease, clean waistband, white ecommerce studio.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 1,
+          "display_price_usd": 84.99,
+          "available_to_promise": 1
+        },
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 8,
+          "display_price_usd": 84.99,
+          "available_to_promise": 8
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 84.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "31",
+      "name": "Pearl White Satin Camisole",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "top",
+      "color": "pearl white",
+      "price_usd": 38.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/top/31_6250305000792647963.png",
+      "description": "Studio catalog photograph of a woman wearing a pearl white satin camisole, delicate spaghetti straps, soft cowl neckline, subtle sheen, clean white background, top visible from neckline to hem.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 4,
+          "display_price_usd": 38.99,
+          "available_to_promise": 4
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 38.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 18,
+          "display_price_usd": 38.99,
+          "available_to_promise": 18
+        }
+      ]
+    },
+    {
+      "garment_id": "32",
+      "name": "Powder Blue Puff-Sleeve Cotton Blouse",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "top",
+      "color": "powder blue",
+      "price_usd": 48.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/top/32_3284921247618051190.png",
+      "description": "Photoreal ecommerce image of a female model in a powder blue puff-sleeve cotton blouse, square neckline, gathered sleeves, fitted waist, crisp fabric texture, white seamless studio.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 48.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_atl",
+          "branch_name": "Meridian Atlanta",
+          "city": "Atlanta",
+          "state": "GA",
+          "address": "3393 Peachtree Rd NE, Atlanta, GA 30326",
+          "in_stock": true,
+          "stock_on_hand": 14,
+          "display_price_usd": 48.99,
+          "available_to_promise": 14
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 21,
+          "display_price_usd": 48.99,
+          "available_to_promise": 21
+        }
+      ]
+    },
+    {
+      "garment_id": "33",
+      "name": "Emerald Wrap Blouse",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "top",
+      "color": "emerald",
+      "price_usd": 54.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/top/33_2929680466278540406.png",
+      "description": "Clean product photo of a woman wearing an emerald wrap blouse, crossover neckline, side tie at waist, long sleeves, smooth crepe drape, soft shadows on white backdrop.",
+      "available_at": [
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 10,
+          "display_price_usd": 54.99,
+          "available_to_promise": 10
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 17,
+          "display_price_usd": 54.99,
+          "available_to_promise": 17
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 24,
+          "display_price_usd": 54.99,
+          "available_to_promise": 24
+        }
+      ]
+    },
+    {
+      "garment_id": "34",
+      "name": "Terracotta Ribbed Knit Tank Top",
+      "collection": "Meridian Essentials",
+      "gender": "women",
+      "category": "top",
+      "color": "terracotta",
+      "price_usd": 32.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/top/34_2608639384676829610.png",
+      "description": "Fashion catalog shot of a female model in a terracotta ribbed knit tank top, scoop neckline, close fit, vertical rib texture, head-to-thigh crop, white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 13,
+          "display_price_usd": 32.99,
+          "available_to_promise": 13
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 20,
+          "display_price_usd": 32.99,
+          "available_to_promise": 20
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 32.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "35",
+      "name": "Black Off-the-Shoulder Top",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "top",
+      "color": "black",
+      "price_usd": 42.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/top/35_1466843640442497876.png",
+      "description": "Studio ecommerce photograph of a woman in a black off-the-shoulder top, folded neckline, fitted bodice, matte stretch fabric, garment centered, white seamless background.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 16,
+          "display_price_usd": 42.99,
+          "available_to_promise": 16
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 42.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": true,
+          "stock_on_hand": 30,
+          "display_price_usd": 42.99,
+          "available_to_promise": 30
+        }
+      ]
+    },
+    {
+      "garment_id": "36",
+      "name": "Lilac Lace-Trim Blouse",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "top",
+      "color": "lilac",
+      "price_usd": 58.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/top/36_8629504639510773114.png",
+      "description": "High-detail product image of a female model wearing a lilac lace-trim blouse, soft V neckline, sheer sleeve detail, delicate texture visible, plain white studio setting.",
+      "available_at": [
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 58.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": true,
+          "stock_on_hand": 26,
+          "display_price_usd": 58.99,
+          "available_to_promise": 26
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 3,
+          "display_price_usd": 58.99,
+          "available_to_promise": 3
+        }
+      ]
+    },
+    {
+      "garment_id": "37",
+      "name": "Sunflower Yellow Peplum Top",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "top",
+      "color": "sunflower yellow",
+      "price_usd": 44.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/top/37_3300333310930437658.png",
+      "description": "Catalog photo of a woman in a sunflower yellow peplum top, structured waist seam, flared hem, sleeveless bodice, crisp woven fabric, pure white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 44.99,
+          "available_to_promise": 22
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 29,
+          "display_price_usd": 44.99,
+          "available_to_promise": 29
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 6,
+          "display_price_usd": 44.99,
+          "available_to_promise": 6
+        }
+      ]
+    },
+    {
+      "garment_id": "38",
+      "name": "Coral Linen Button-Front Blouse",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "top",
+      "color": "coral",
+      "price_usd": 52.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/top/38_2952576305891351544.png",
+      "description": "Photoreal studio shot of a female model wearing a coral linen button-front blouse, relaxed collar, rolled sleeves, natural linen wrinkles, straight hem, ecommerce white backdrop.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 25,
+          "display_price_usd": 52.99,
+          "available_to_promise": 25
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 2,
+          "display_price_usd": 52.99,
+          "available_to_promise": 2
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 52.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "39",
+      "name": "Ruby Red Halter Top",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "top",
+      "color": "ruby red",
+      "price_usd": 36.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/top/39_6930071737478685065.png",
+      "description": "Minimal front-facing fashion product photo of a woman in a ruby red halter top, body facing camera directly, front twisted neckline and chest silhouette visible, open shoulders, fitted front bodice, smooth fabric sheen, white seamless set, no back view.",
+      "available_at": [
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": true,
+          "stock_on_hand": 28,
+          "display_price_usd": 36.99,
+          "available_to_promise": 28
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 36.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 12,
+          "display_price_usd": 36.99,
+          "available_to_promise": 12
+        }
+      ]
+    },
+    {
+      "garment_id": "40",
+      "name": "Sage Green Sleeveless Utility Top",
+      "collection": "Meridian Street",
+      "gender": "women",
+      "category": "top",
+      "color": "sage green",
+      "price_usd": 46.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/top/40_4139479987619013566.png",
+      "description": "Sharp ecommerce image of a female model wearing a sage green sleeveless utility top, flap chest pockets, structured cotton twill, clean front pose, white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 46.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 8,
+          "display_price_usd": 46.99,
+          "available_to_promise": 8
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 15,
+          "display_price_usd": 46.99,
+          "available_to_promise": 15
+        }
+      ]
+    },
+    {
+      "garment_id": "41",
+      "name": "Ivory High-Waisted Wide-Leg Trousers",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "ivory",
+      "price_usd": 74.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/pants_shorts/41_7144789130415640015.png",
+      "description": "Waist-to-feet catalog photo of a female model wearing ivory high-waisted wide-leg trousers, front pleats, smooth drape, clean waistband, soft studio lighting, white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 4,
+          "display_price_usd": 74.99,
+          "available_to_promise": 4
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 11,
+          "display_price_usd": 74.99,
+          "available_to_promise": 11
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 18,
+          "display_price_usd": 74.99,
+          "available_to_promise": 18
+        }
+      ]
+    },
+    {
+      "garment_id": "42",
+      "name": "Dark Wash High-Rise Straight Jeans",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "dark wash",
+      "price_usd": 79.99,
+      "sizes_available": [
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32"
+      ],
+      "image_path": "output/women/pants_shorts/42_6938854516352386933.png",
+      "description": "Full-body front-facing ecommerce studio photo of a female model looking at the camera, wearing dark wash straight jeans as the main product. Camera is directly in front of the model. Jeans front side visible: high waist, copper front button, zipper fly, front rise, front pockets and straight legs. Model stands with chest and toes facing the viewer. No rear pockets, no backside, no turned-away pose, pure white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 7,
+          "display_price_usd": 79.99,
+          "available_to_promise": 7
+        },
+        {
+          "branch_id": "branch_atl",
+          "branch_name": "Meridian Atlanta",
+          "city": "Atlanta",
+          "state": "GA",
+          "address": "3393 Peachtree Rd NE, Atlanta, GA 30326",
+          "in_stock": true,
+          "stock_on_hand": 14,
+          "display_price_usd": 79.99,
+          "available_to_promise": 14
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 79.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "43",
+      "name": "Olive Tailored Bermuda Shorts",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "olive",
+      "price_usd": 48.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/pants_shorts/43_7650235050773258176.png",
+      "description": "Studio ecommerce photograph of a female model wearing olive tailored Bermuda shorts, pressed crease, knee-length hem, side pockets, cotton twill texture, white seamless backdrop.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 10,
+          "display_price_usd": 48.99,
+          "available_to_promise": 10
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 48.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 24,
+          "display_price_usd": 48.99,
+          "available_to_promise": 24
+        }
+      ]
+    },
+    {
+      "garment_id": "44",
+      "name": "Blush Pink Cigarette Pants",
+      "collection": "Meridian Tailored",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "blush pink",
+      "price_usd": 64.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/pants_shorts/44_3523668402720212448.png",
+      "description": "Clean catalog image of blush pink cigarette pants, ankle-length hem, slim tailored fit, smooth waistband, subtle pocket line, model cropped waist to feet on white.",
+      "available_at": [
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 64.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": true,
+          "stock_on_hand": 20,
+          "display_price_usd": 64.99,
+          "available_to_promise": 20
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": true,
+          "stock_on_hand": 27,
+          "display_price_usd": 64.99,
+          "available_to_promise": 27
+        }
+      ]
+    },
+    {
+      "garment_id": "45",
+      "name": "Cobalt Blue Palazzo Pants",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "cobalt blue",
+      "price_usd": 69.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/pants_shorts/45_8913702987156251072.png",
+      "description": "Camera positioned directly in front of a female model, waist-to-feet ecommerce photograph of cobalt blue palazzo pants. The model faces the viewer with toes pointed toward the camera. Front high waistband, front pleats, front leg drape and flowing wide legs are clearly visible. No backside, no rear waistband, no back view, white studio background.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 16,
+          "display_price_usd": 69.99,
+          "available_to_promise": 16
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 23,
+          "display_price_usd": 69.99,
+          "available_to_promise": 23
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": true,
+          "stock_on_hand": 30,
+          "display_price_usd": 69.99,
+          "available_to_promise": 30
+        }
+      ]
+    },
+    {
+      "garment_id": "46",
+      "name": "Camel Paperbag-Waist Shorts",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "camel",
+      "price_usd": 44.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/pants_shorts/46_596152065380604711.png",
+      "description": "Ecommerce image of a female model wearing camel paperbag-waist shorts, tied fabric belt, pleated front, relaxed thigh opening, crisp cotton texture, plain white backdrop.",
+      "available_at": [
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": true,
+          "stock_on_hand": 19,
+          "display_price_usd": 44.99,
+          "available_to_promise": 19
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": true,
+          "stock_on_hand": 26,
+          "display_price_usd": 44.99,
+          "available_to_promise": 26
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 44.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "47",
+      "name": "Charcoal Tailored Trousers",
+      "collection": "Meridian Tailored",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "charcoal",
+      "price_usd": 84.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/pants_shorts/47_823059780004420168.png",
+      "description": "Studio shot of a woman in charcoal tailored trousers, pressed crease, straight-leg silhouette, polished waistband, realistic wool texture, lower body centered on white.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 84.99,
+          "available_to_promise": 22
+        },
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 84.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 6,
+          "display_price_usd": 84.99,
+          "available_to_promise": 6
+        }
+      ]
+    },
+    {
+      "garment_id": "48",
+      "name": "Mint Green Cropped Chinos",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "mint green",
+      "price_usd": 54.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/pants_shorts/48_980482897917003013.png",
+      "description": "Catalog photograph of a female model wearing mint green cropped chinos, tapered leg, visible belt loops, side pockets, matte cotton fabric, white seamless background.",
+      "available_at": [
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 54.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 2,
+          "display_price_usd": 54.99,
+          "available_to_promise": 2
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": true,
+          "stock_on_hand": 9,
+          "display_price_usd": 54.99,
+          "available_to_promise": 9
+        }
+      ]
+    },
+    {
+      "garment_id": "49",
+      "name": "Rust Orange High-Waist Denim Shorts",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "rust orange",
+      "price_usd": 52.99,
+      "sizes_available": [
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30"
+      ],
+      "image_path": "output/women/pants_shorts/49_3623672079397098302.png",
+      "description": "Lower-body ecommerce photo of a woman in rust orange denim shorts, high waist, frayed hem, button fly, rugged denim grain, clean white studio lighting.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 28,
+          "display_price_usd": 52.99,
+          "available_to_promise": 28
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 5,
+          "display_price_usd": 52.99,
+          "available_to_promise": 5
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 12,
+          "display_price_usd": 52.99,
+          "available_to_promise": 12
+        }
+      ]
+    },
+    {
+      "garment_id": "50",
+      "name": "Deep Plum Satin Wide-Leg Trousers",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "pants_shorts",
+      "color": "deep plum",
+      "price_usd": 88.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/pants_shorts/50_621397696750097290.png",
+      "description": "Fashion product image of a female model wearing deep plum satin trousers, wide-leg drape, soft sheen, clean waistband, waist-to-feet framing on white seamless backdrop.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 1,
+          "display_price_usd": 88.99,
+          "available_to_promise": 1
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": true,
+          "stock_on_hand": 8,
+          "display_price_usd": 88.99,
+          "available_to_promise": 8
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 88.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "51",
+      "name": "Navy Jersey Wrap Maxi Dress",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "navy",
+      "price_usd": 89.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/maxi_dress/51_6190519220890103051.png",
+      "description": "Full-body ecommerce studio photograph of a woman in a navy wrap maxi dress, crossover bodice, waist tie, flowing ankle-length skirt, soft jersey drape, pure white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 4,
+          "display_price_usd": 89.99,
+          "available_to_promise": 4
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 89.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 18,
+          "display_price_usd": 89.99,
+          "available_to_promise": 18
+        }
+      ]
+    },
+    {
+      "garment_id": "52",
+      "name": "Champagne Satin Slip Maxi Dress",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "champagne",
+      "price_usd": 118.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/maxi_dress/52_1184526366345084141.png",
+      "description": "Full-body front-facing catalog image of a female model wearing a champagne satin slip maxi dress, body facing camera directly, spaghetti straps and front neckline visible, bias-cut silhouette, elegant sheen, floor-length hem, clean white studio, explicitly not side or back view.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 118.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": true,
+          "stock_on_hand": 14,
+          "display_price_usd": 118.99,
+          "available_to_promise": 14
+        },
+        {
+          "branch_id": "branch_por",
+          "branch_name": "Meridian Portland",
+          "city": "Portland",
+          "state": "OR",
+          "address": "1030 NW 11th Ave, Portland, OR 97209",
+          "in_stock": true,
+          "stock_on_hand": 21,
+          "display_price_usd": 118.99,
+          "available_to_promise": 21
+        }
+      ]
+    },
+    {
+      "garment_id": "53",
+      "name": "Forest Green Tiered Cotton Maxi Dress",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "forest green",
+      "price_usd": 94.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/maxi_dress/53_5462978539638277910.png",
+      "description": "Photoreal fashion product shot of a woman in a forest green tiered maxi dress, square neckline, gathered waist, layered skirt panels, matte cotton texture, white seamless set.",
+      "available_at": [
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 10,
+          "display_price_usd": 94.99,
+          "available_to_promise": 10
+        },
+        {
+          "branch_id": "branch_sea",
+          "branch_name": "Meridian Seattle",
+          "city": "Seattle",
+          "state": "WA",
+          "address": "500 Pine St, Seattle, WA 98101",
+          "in_stock": true,
+          "stock_on_hand": 17,
+          "display_price_usd": 94.99,
+          "available_to_promise": 17
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 24,
+          "display_price_usd": 94.99,
+          "available_to_promise": 24
+        }
+      ]
+    },
+    {
+      "garment_id": "54",
+      "name": "Burnt Orange Linen Shirt Maxi Dress",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "burnt orange",
+      "price_usd": 99.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/maxi_dress/54_3183095732812551821.png",
+      "description": "Studio catalog photo of a female model wearing a burnt orange linen shirt maxi dress, collar, button front, waist belt, long relaxed skirt, natural wrinkles on white.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 13,
+          "display_price_usd": 99.99,
+          "available_to_promise": 13
+        },
+        {
+          "branch_id": "branch_aus",
+          "branch_name": "Meridian Austin",
+          "city": "Austin",
+          "state": "TX",
+          "address": "3401 Esperanza Crossing, Austin, TX 78758",
+          "in_stock": true,
+          "stock_on_hand": 20,
+          "display_price_usd": 99.99,
+          "available_to_promise": 20
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 99.99,
+          "available_to_promise": 0
+        }
+      ]
+    },
+    {
+      "garment_id": "55",
+      "name": "Lavender Chiffon Flutter-Sleeve Maxi",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "lavender",
+      "price_usd": 104.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/maxi_dress/55_5661879448330494752.png",
+      "description": "Ecommerce full-body image of a woman in a soft lavender chiffon maxi dress, flutter sleeves, V neckline, airy translucent layers, flowing hem, white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 16,
+          "display_price_usd": 104.99,
+          "available_to_promise": 16
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 104.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": true,
+          "stock_on_hand": 30,
+          "display_price_usd": 104.99,
+          "available_to_promise": 30
+        }
+      ]
+    },
+    {
+      "garment_id": "56",
+      "name": "Crimson Halter Maxi Dress",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "crimson",
+      "price_usd": 92.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/maxi_dress/56_5847417636102437281.png",
+      "description": "Clean studio photograph of a female model wearing a crimson halter maxi dress, twisted neckline, fitted bodice, sweeping skirt, smooth fabric, centered on white seamless.",
+      "available_at": [
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 92.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_sd",
+          "branch_name": "Meridian San Diego",
+          "city": "San Diego",
+          "state": "CA",
+          "address": "7007 Friars Rd, San Diego, CA 92108",
+          "in_stock": true,
+          "stock_on_hand": 26,
+          "display_price_usd": 92.99,
+          "available_to_promise": 26
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 3,
+          "display_price_usd": 92.99,
+          "available_to_promise": 3
+        }
+      ]
+    },
+    {
+      "garment_id": "57",
+      "name": "Teal Pleated Sleeveless Maxi Dress",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "teal",
+      "price_usd": 96.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/maxi_dress/57_6771877463875120616.png",
+      "description": "Full-length catalog shot of a woman in a teal pleated maxi dress, sleeveless bodice, defined waist, vertical pleats, graceful movement, white ecommerce lighting.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 96.99,
+          "available_to_promise": 22
+        },
+        {
+          "branch_id": "branch_atl",
+          "branch_name": "Meridian Atlanta",
+          "city": "Atlanta",
+          "state": "GA",
+          "address": "3393 Peachtree Rd NE, Atlanta, GA 30326",
+          "in_stock": true,
+          "stock_on_hand": 29,
+          "display_price_usd": 96.99,
+          "available_to_promise": 29
+        },
+        {
+          "branch_id": "branch_den",
+          "branch_name": "Meridian Denver",
+          "city": "Denver",
+          "state": "CO",
+          "address": "2825 E 2nd Ave, Denver, CO 80206",
+          "in_stock": true,
+          "stock_on_hand": 6,
+          "display_price_usd": 96.99,
+          "available_to_promise": 6
+        }
+      ]
+    },
+    {
+      "garment_id": "58",
+      "name": "Ivory Lace Floor-Length Gown",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "ivory",
+      "price_usd": 124.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/maxi_dress/58_5708872797380737923.png",
+      "description": "Full-body front portrait of a female model facing the camera in an ivory lace maxi dress. Her face, chest, front neckline, fitted front lace bodice, waist and front of the flared floor-length skirt are clearly visible. Camera directly in front, model looking at viewer, no back view, no rear neckline, no turned-away pose, white background.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": true,
+          "stock_on_hand": 25,
+          "display_price_usd": 124.99,
+          "available_to_promise": 25
+        },
+        {
+          "branch_id": "branch_chi",
+          "branch_name": "Meridian Chicago",
+          "city": "Chicago",
+          "state": "IL",
+          "address": "830 N Michigan Ave, Chicago, IL 60611",
+          "in_stock": true,
+          "stock_on_hand": 2,
+          "display_price_usd": 124.99,
+          "available_to_promise": 2
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 124.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_phi",
+          "branch_name": "Meridian Philadelphia",
+          "city": "Philadelphia",
+          "state": "PA",
+          "address": "1806 Chestnut St, Philadelphia, PA 19103",
+          "in_stock": true,
+          "stock_on_hand": 16,
+          "display_price_usd": 124.99,
+          "available_to_promise": 16
+        }
+      ]
+    },
+    {
+      "garment_id": "59",
+      "name": "Magenta Off-the-Shoulder Maxi Dress",
+      "collection": "Meridian Casual",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "magenta",
+      "price_usd": 108.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "image_path": "output/women/maxi_dress/59_8541446560877142741.png",
+      "description": "Studio fashion catalog photo of a woman in a magenta off-the-shoulder maxi dress, elastic neckline, gathered sleeves, cinched waist, full flowing skirt, pure white backdrop.",
+      "available_at": [
+        {
+          "branch_id": "branch_la",
+          "branch_name": "Meridian Los Angeles",
+          "city": "Los Angeles",
+          "state": "CA",
+          "address": "9500 Wilshire Blvd, Beverly Hills, CA 90210",
+          "in_stock": true,
+          "stock_on_hand": 28,
+          "display_price_usd": 108.99,
+          "available_to_promise": 28
+        },
+        {
+          "branch_id": "branch_mia",
+          "branch_name": "Meridian Miami",
+          "city": "Miami",
+          "state": "FL",
+          "address": "1601 Collins Ave, Miami Beach, FL 33139",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 108.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_nas",
+          "branch_name": "Meridian Nashville",
+          "city": "Nashville",
+          "state": "TN",
+          "address": "2126 Adelicia St, Nashville, TN 37212",
+          "in_stock": true,
+          "stock_on_hand": 12,
+          "display_price_usd": 108.99,
+          "available_to_promise": 12
+        }
+      ]
+    },
+    {
+      "garment_id": "60",
+      "name": "Black Minimalist Column Maxi Dress",
+      "collection": "Meridian Luxe",
+      "gender": "women",
+      "category": "maxi_dress",
+      "color": "black",
+      "price_usd": 114.99,
+      "sizes_available": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "image_path": "output/women/maxi_dress/60_9135411581401437185.png",
+      "description": "High-resolution ecommerce image of a female model wearing a black minimalist column maxi dress, high neckline, sleeveless cut, straight floor-length silhouette, matte crepe texture on white.",
+      "available_at": [
+        {
+          "branch_id": "branch_nyc",
+          "branch_name": "Meridian New York",
+          "city": "New York",
+          "state": "NY",
+          "address": "680 Fifth Ave, New York, NY 10019",
+          "in_stock": false,
+          "stock_on_hand": 0,
+          "display_price_usd": 114.99,
+          "available_to_promise": 0
+        },
+        {
+          "branch_id": "branch_hou",
+          "branch_name": "Meridian Houston",
+          "city": "Houston",
+          "state": "TX",
+          "address": "5085 Westheimer Rd, Houston, TX 77056",
+          "in_stock": true,
+          "stock_on_hand": 8,
+          "display_price_usd": 114.99,
+          "available_to_promise": 8
+        },
+        {
+          "branch_id": "branch_bos",
+          "branch_name": "Meridian Boston",
+          "city": "Boston",
+          "state": "MA",
+          "address": "200 Newbury St, Boston, MA 02116",
+          "in_stock": true,
+          "stock_on_hand": 15,
+          "display_price_usd": 114.99,
+          "available_to_promise": 15
+        },
+        {
+          "branch_id": "branch_dal",
+          "branch_name": "Meridian Dallas",
+          "city": "Dallas",
+          "state": "TX",
+          "address": "2440 Victory Park Ln, Dallas, TX 75204",
+          "in_stock": true,
+          "stock_on_hand": 22,
+          "display_price_usd": 114.99,
+          "available_to_promise": 22
+        }
+      ]
+    }
+  ]
+}

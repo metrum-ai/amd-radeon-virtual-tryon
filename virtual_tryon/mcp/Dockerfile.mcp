@@ -1,0 +1,31 @@
+# Copyright Advanced Micro Devices, Inc.
+# 
+# SPDX-License-Identifier: MIT
+
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Copy only what the MCP server needs
+COPY virtual_tryon/mcp/ virtual_tryon/mcp/
+COPY virtual_tryon/__init__.py virtual_tryon/__init__.py
+
+# Install runtime deps (asyncpg, redis, fastmcp already in pyproject.toml)
+RUN pip install --no-cache-dir \
+    "asyncpg==0.31.0" \
+    "fastmcp==3.4.2" \
+    "redis[asyncio]==8.0.0" && \
+    groupadd -r appuser && \
+    useradd -r -g appuser -d /app -s /sbin/nologin appuser && \
+    chown -R appuser:appuser /app
+
+ENV PYTHONPATH=/app
+
+EXPOSE 8001
+
+HEALTHCHECK --interval=10s --timeout=5s --retries=5 --start-period=15s \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8001/healthz')"
+
+USER appuser
+
+CMD ["python", "-m", "virtual_tryon.mcp.server"]

@@ -1,0 +1,55 @@
+# Copyright Advanced Micro Devices, Inc.
+# 
+# SPDX-License-Identifier: MIT
+
+# VTO FastAPI service — full deps including torch (CPU), transformers, pymilvus
+FROM python:3.10-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc g++ libgomp1 && rm -rf /var/lib/apt/lists/*
+
+COPY virtual_tryon/ virtual_tryon/
+COPY catalogue/dataset.json catalogue/dataset.json
+
+# Install torch CPU-only first (avoids pulling CUDA wheels)
+RUN pip install --no-cache-dir "numpy==1.26.4"
+
+RUN pip install --no-cache-dir \
+    torch==2.5.1 \
+    torchvision==0.20.1 \
+    --index-url https://download.pytorch.org/whl/cpu
+
+RUN pip install --no-cache-dir \
+    "asyncpg==0.31.0" \
+    "fastapi==0.137.1" \
+    "fastmcp==3.4.2" \
+    "httpx==0.28.1" \
+    "marshmallow==3.26.2" \
+    "Pillow==12.2.0" \
+    "pymilvus==2.3.8" \
+    "pydantic==2.13.4" \
+    "pydantic-settings==2.14.1" \
+    "prometheus-client==0.25.0" \
+    "redis[asyncio]==8.0.0" \
+    "transformers==4.57.6" \
+    "uvicorn==0.49.0"
+
+ENV PYTHONPATH=/app \
+    HF_HOME=/app/.cache/huggingface
+
+RUN chmod +x virtual_tryon/catalog/entrypoint.sh && \
+    groupadd -r appuser && \
+    useradd -r -g appuser -d /app -s /sbin/nologin appuser && \
+    mkdir -p /app/.cache/huggingface && \
+    chown -R appuser:appuser /app
+
+EXPOSE 8088
+
+HEALTHCHECK --interval=10s --timeout=5s --retries=5 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8088/healthz')"
+
+USER appuser
+
+CMD ["sh", "virtual_tryon/catalog/entrypoint.sh"]
