@@ -76,6 +76,57 @@ add_or_replace() {
     fi
 }
 
+# env_file_value <key> <file> — print a key's value from an env file, or
+# nothing (exit 1) if the file/key doesn't exist.
+env_file_value() {
+    local key="$1" file="${2:-.env}"
+    [ -f "$file" ] || return 1
+    awk -F= -v key="$key" '
+        $1 == key { sub(/^[^=]*=/, ""); print; found = 1; exit }
+        END { exit found ? 0 : 1 }
+    ' "$file"
+}
+
+# docker_volume_exists <suffix> — true if any Docker volume name ends with
+# <suffix> (compose prefixes volume names with the project name, which
+# varies by clone directory, so we match on the compose-file volume name's
+# suffix rather than requiring an exact match).
+docker_volume_exists() {
+    local suffix="$1"
+    docker volume ls --format '{{.Name}}' 2>/dev/null | grep -q -- "${suffix}\$"
+}
+
+# setup_tls — generate a self-signed cert for optional HTTPS, so mic/voice
+# input works over a LAN IP. nginx.tls.conf sniffs each connection and serves
+# http:// and https:// on the same frontend port, so this needs no extra port.
+setup_tls() {
+    local tls_dir="${HOME}/.cache/vto-tls"
+    mkdir -p "$tls_dir"
+    local lan_ip
+    lan_ip="$(ip -4 -o addr show scope global 2>/dev/null | awk 'NR==1{print $4}' | cut -d/ -f1)"
+    local san="DNS:localhost,IP:127.0.0.1"
+    [ -n "$lan_ip" ] && san="${san},IP:${lan_ip}"
+
+    openssl req -x509 -nodes -newkey rsa:2048 -days 825 \
+        -keyout "${tls_dir}/tls.key" -out "${tls_dir}/tls.crt" \
+        -subj "/CN=${lan_ip:-localhost}" \
+        -addext "subjectAltName=${san}" >/dev/null 2>&1 \
+        || die "Self-signed certificate generation failed (is openssl installed?)"
+    chmod 644 "${tls_dir}/tls.key" "${tls_dir}/tls.crt"
+
+    add_or_replace "TLS_ENABLED" "1"
+    add_or_replace "TLS_CERT_DIR" "${tls_dir}"
+    add_or_replace "NGINX_CONF" "${SCRIPT_DIR}/frontend/nginx.tls.conf"
+    ok "Self-signed TLS cert generated in ${tls_dir}"
+    warn "Browsers will show a 'not private' warning on first visit — click through it once."
+
+    local _port
+    _port="$(awk -F= '/^GATEWAY_HTTP_ALT_PORT=/{print $2}' .env 2>/dev/null | tr -d ' ')"
+    _port="${_port:-5173}"
+    info "  HTTPS access: https://localhost:${_port}/ (same port as HTTP)"
+    [ -n "$lan_ip" ] && info "  HTTPS LAN access: https://${lan_ip}:${_port}/"
+}
+
 # gen_token — emit a strong random secret (hex via openssl, base64 fallback).
 gen_token() {
     if command -v openssl >/dev/null 2>&1; then
@@ -200,7 +251,7 @@ fi
 
 # --- CPU ---
 CPU_CORE_COUNT="$(detect_cpu_core_count)"
-ok "${CPU_CORE_COUNT} physical CPU core(s) — TTS pinned to cores 80-95"
+ok "${CPU_CORE_COUNT} physical CPU core(s) — TTS pin range auto-detected below"
 
 echo ""
 [ "$PREREQ_FAIL" -ne 0 ] && die "Fix the errors above then re-run."
@@ -212,6 +263,20 @@ echo -e "${BOLD}[2/4] Environment configuration${NC}"
 echo ""
 
 SKIP_ENV=0
+
+# Capture whatever secrets the *current* .env holds before it is possibly
+# deleted below. Postgres and RustFS/MinIO only apply the credentials baked
+# into their env vars the first time their data volume is initialized —
+# writing a new password/key into .env afterwards does NOT change the
+# already-initialized store, it just makes DATABASE_URL / RUSTFS_* stop
+# matching reality. We capture the prior values here (before any rm/cp
+# touches .env) so that later, if the corresponding volume already exists,
+# we can detect that and reuse the working credentials instead of silently
+# handing out ones that will never authenticate.
+_prior_pg_pw="$(env_file_value POSTGRES_PASSWORD .env 2>/dev/null || true)"
+_prior_rustfs_key="$(env_file_value RUSTFS_ACCESS_KEY .env 2>/dev/null || true)"
+_prior_rustfs_secret="$(env_file_value RUSTFS_SECRET_KEY .env 2>/dev/null || true)"
+
 if [ -f .env ]; then
     warn ".env already exists."
     read -rp "  Overwrite it? [y/N]: " _ow || _ow="N"
@@ -227,40 +292,68 @@ fi
 if [ "$SKIP_ENV" -eq 0 ]; then
     [ -f .env.example ] || die ".env.example missing — cannot scaffold .env"
     cp .env.example .env
+
     echo "  Press Enter to accept the default shown in [brackets]."
     echo ""
 
     # --- Database ---
     echo -e "  ${BOLD}Database${NC}"
-    while true; do
-        read -rsp "  Postgres password (will not be echoed): " _pg_pw; echo ""
-        [ -z "${_pg_pw:-}" ] && { error "  Cannot be empty."; continue; }
-        [ "$_pg_pw" = "password" ] || [ "$_pg_pw" = "changeme" ] && { warn "  Weak default — choose stronger."; continue; }
-        read -rsp "  Confirm password: " _pg_pw2; echo ""
-        [ "$_pg_pw" != "$_pg_pw2" ] && { error "  Passwords do not match."; continue; }
-        break
-    done
+    if docker_volume_exists "_vto_pgdata" && [ -n "$_prior_pg_pw" ]; then
+        warn "  An existing 'vto_pgdata' Docker volume was found."
+        warn "  Postgres only applies POSTGRES_PASSWORD the first time it initializes"
+        warn "  a fresh volume — entering a new password now would NOT update the"
+        warn "  already-initialized database, and would silently break every"
+        warn "  service's DATABASE_URL authentication (they'd all fail to connect)."
+        warn "  Reusing the existing Postgres password from the previous .env."
+        warn "  To set a genuinely new password, first wipe the volume (this"
+        warn "  deletes all Postgres data): docker compose down -v"
+        _pg_pw="$_prior_pg_pw"
+        info "  Postgres password: (reused from previous .env)"
+    else
+        while true; do
+            read -rsp "  Postgres password (will not be echoed): " _pg_pw; echo ""
+            [ -z "${_pg_pw:-}" ] && { error "  Cannot be empty."; continue; }
+            [ "$_pg_pw" = "password" ] || [ "$_pg_pw" = "changeme" ] && { warn "  Weak default — choose stronger."; continue; }
+            read -rsp "  Confirm password: " _pg_pw2; echo ""
+            [ "$_pg_pw" != "$_pg_pw2" ] && { error "  Passwords do not match."; continue; }
+            break
+        done
+    fi
     sed -i "s|^POSTGRES_PASSWORD=.*|POSTGRES_PASSWORD=${_pg_pw}|" .env
     add_or_replace "DATABASE_URL" "postgresql://shared:${_pg_pw}@postgres:5432/shared_platform"
     echo ""
 
     # --- RustFS object store ---
     echo -e "  ${BOLD}RustFS / Milvus object store${NC}"
-    while true; do
-        read -rp "  RustFS access key: " _rs_key || _rs_key=""
-        [ -z "${_rs_key:-}" ] && { error "  Cannot be empty."; continue; }
-        [ "$_rs_key" = "minioadmin" ] && { warn "  minioadmin is insecure — choose unique key."; continue; }
-        break
-    done
-    while true; do
-        read -rsp "  RustFS secret key (will not be echoed): " _rs_secret; echo ""
-        [ -z "${_rs_secret:-}" ] && { error "  Cannot be empty."; continue; }
-        [ "${#_rs_secret}" -lt 8 ] && { error "  Minimum 8 characters."; continue; }
-        [ "$_rs_secret" = "minioadmin" ] && { warn " Choose a unique secret key."; continue; }
-        read -rsp "  Confirm secret key: " _rs_secret2; echo ""
-        [ "$_rs_secret" != "$_rs_secret2" ] && { error "  Do not match."; continue; }
-        break
-    done
+    if docker_volume_exists "_vto_milvus_minio" && [ -n "$_prior_rustfs_key" ] && [ -n "$_prior_rustfs_secret" ]; then
+        warn "  An existing 'vto_milvus_minio' Docker volume was found."
+        warn "  RustFS only applies its access/secret key the first time it"
+        warn "  initializes a fresh volume — entering new ones now would NOT update"
+        warn "  the already-initialized store, and Milvus would silently fail to"
+        warn "  authenticate against it."
+        warn "  Reusing the existing RustFS credentials from the previous .env."
+        warn "  To set genuinely new credentials, first wipe the volume (this"
+        warn "  deletes all Milvus/RustFS data): docker compose down -v"
+        _rs_key="$_prior_rustfs_key"
+        _rs_secret="$_prior_rustfs_secret"
+        info "  RustFS access/secret key: (reused from previous .env)"
+    else
+        while true; do
+            read -rp "  RustFS access key: " _rs_key || _rs_key=""
+            [ -z "${_rs_key:-}" ] && { error "  Cannot be empty."; continue; }
+            [ "$_rs_key" = "minioadmin" ] && { warn "  minioadmin is insecure — choose unique key."; continue; }
+            break
+        done
+        while true; do
+            read -rsp "  RustFS secret key (will not be echoed): " _rs_secret; echo ""
+            [ -z "${_rs_secret:-}" ] && { error "  Cannot be empty."; continue; }
+            [ "${#_rs_secret}" -lt 8 ] && { error "  Minimum 8 characters."; continue; }
+            [ "$_rs_secret" = "minioadmin" ] && { warn " Choose a unique secret key."; continue; }
+            read -rsp "  Confirm secret key: " _rs_secret2; echo ""
+            [ "$_rs_secret" != "$_rs_secret2" ] && { error "  Do not match."; continue; }
+            break
+        done
+    fi
     sed -i "s|^RUSTFS_ACCESS_KEY=.*|RUSTFS_ACCESS_KEY=${_rs_key}|" .env
     sed -i "s|^RUSTFS_SECRET_KEY=.*|RUSTFS_SECRET_KEY=${_rs_secret}|" .env
     echo ""
@@ -278,6 +371,15 @@ if [ "$SKIP_ENV" -eq 0 ]; then
     _ollama_dir="${_ollama_dir:-${DEFAULT_OLLAMA}}"
     [ -d "$_ollama_dir" ] || { mkdir -p "$_ollama_dir"; ok "  Created ${_ollama_dir}"; }
     sed -i "s|^OLLAMA_DATA_DIR=.*|OLLAMA_DATA_DIR=${_ollama_dir}|" .env
+
+    # Kept separate from HF_CACHE_DIR — vto-tts is a pre-built root-running
+    # image, and sharing a cache dir with the non-root services would put us
+    # right back in Issue 6's root-owned-files trap.
+    DEFAULT_LEMONADE="${HOME}/.cache/lemonade-hf"
+    read -rp "  Lemonade/Kokoro TTS cache dir [${DEFAULT_LEMONADE}]: " _lemonade_dir || _lemonade_dir=""
+    _lemonade_dir="${_lemonade_dir:-${DEFAULT_LEMONADE}}"
+    [ -d "$_lemonade_dir" ] || { mkdir -p "$_lemonade_dir"; ok "  Created ${_lemonade_dir}"; }
+    sed -i "s|^LEMONADE_CACHE_DIR=.*|LEMONADE_CACHE_DIR=${_lemonade_dir}|" .env
 
     # --- ACE-Step paths ---
     echo ""
@@ -304,7 +406,7 @@ if [ "$SKIP_ENV" -eq 0 ]; then
         _check="$(find_free_port "$_alt_port" 1)"
         [ "$_check" != "$_alt_port" ] && warn "  Port ${_alt_port} appears occupied — continuing anyway."
     fi
-    sed -i "s|^GATEWAY_HTTP_ALT_PORT=.*|GATEWAY_HTTP_ALT_PORT=${_alt_port}|" .env
+    add_or_replace "GATEWAY_HTTP_ALT_PORT" "${_alt_port}"
     ok "  Frontend port set to ${_alt_port}"
     echo ""
 
@@ -365,6 +467,15 @@ if [ "$SKIP_ENV" -eq 0 ]; then
     sed -i "s|^LLM_MODEL=.*|LLM_MODEL=${_llm}|" .env
     echo ""
 
+    # --- Optional HTTPS (self-signed), on by default — needed for mic/voice
+    # input over a LAN IP, and shares the same port as HTTP (no extra port).
+    echo -e "  ${BOLD}HTTPS${NC}"
+    read -rp "  Enable self-signed HTTPS (recommended, needed for LAN mic/voice access)? [Y/n]: " _tls || _tls="Y"
+    if [[ ! "${_tls:-Y}" =~ ^[Nn]$ ]]; then
+        setup_tls
+    fi
+    echo ""
+
     ok ".env written"
     echo ""
 fi
@@ -383,6 +494,26 @@ _RENDER_GID="$(getent group render 2>/dev/null | cut -d: -f3)"
 add_or_replace "VIDEO_GID" "${_VIDEO_GID}"
 add_or_replace "RENDER_GID" "${_RENDER_GID}"
 ok "GPU groups detected (video=${_VIDEO_GID}, render=${_RENDER_GID})"
+
+# --- TTS CPU pinning (Kokoro/Lemonade is CPU-only) ---
+# Auto-detect a safe range for this host instead of a hardcoded one; reserve
+# core 0 for the OS and pin starting from core 1.
+_nproc="$(nproc 2>/dev/null || echo 1)"
+_tts_want=16
+_existing_cpuset="$(awk -F= '/^TTS_CPUSET=/{print $2}' .env 2>/dev/null | tr -d ' ')"
+if [ -z "${_existing_cpuset:-}" ]; then
+    if [ "$_nproc" -gt "$_tts_want" ]; then
+        _tts_default="1-${_tts_want}"
+    else
+        _tts_default=""
+        warn "Only ${_nproc} logical CPU(s) detected — leaving TTS unpinned (unrestricted)."
+    fi
+    echo -e "  ${BOLD}TTS CPU pin${NC} (${_nproc} logical CPUs detected)"
+    read -rp "  Cores to pin Lemonade/Kokoro TTS to [${_tts_default:-none}]: " _tts_cpuset || _tts_cpuset=""
+    _tts_cpuset="${_tts_cpuset:-$_tts_default}"
+    add_or_replace "TTS_CPUSET" "${_tts_cpuset}"
+    [ -n "$_tts_cpuset" ] && ok "TTS pinned to cores ${_tts_cpuset}" || ok "TTS left unpinned"
+fi
 
 # When keeping an existing .env, still verify the alt port is free and update if not.
 if [ "$SKIP_ENV" -eq 1 ]; then
@@ -404,11 +535,20 @@ echo ""
 echo -e "${BOLD}[3/5] Building images & downloading models...${NC}"
 echo ""
 
-info "Building all service images (first run takes ~10–20 min for GPU images)..."
-if ! retry_command "Docker Compose build" "$SETUP_DOCKER_RETRY_ATTEMPTS" "$SETUP_DOCKER_RETRY_DELAY_S" \
-    docker compose build; then
-    die "Docker build failed — check output above."
-fi
+info "Building service images one at a time (first run takes ~10–20 min for GPU images)..."
+# A single `docker compose build` bakes every target together and cancels all
+# in-flight/pending targets the moment any one fails, even independent ones.
+# Building per-service keeps unrelated images building even if one Dockerfile is broken.
+_build_failed=""
+for _svc in $(docker compose config --services 2>/dev/null); do
+    info "  Building ${_svc}..."
+    if ! retry_command "Build ${_svc}" "$SETUP_DOCKER_RETRY_ATTEMPTS" "$SETUP_DOCKER_RETRY_DELAY_S" \
+        docker compose build "$_svc"; then
+        error "  ${_svc} failed to build"
+        _build_failed="${_build_failed} ${_svc}"
+    fi
+done
+[ -n "$_build_failed" ] && die "Docker build failed for:${_build_failed} — check output above."
 ok "All images built"
 echo ""
 
@@ -449,13 +589,26 @@ fi
 echo ""
 
 # ---------------------------------------------------------------------------
-# Pre-create writable bind-mount host dirs (pipeline job output).
-# ---------------------------------------------------------------------------
+# Pre-create writable bind-mount host dirs. Docker creates a missing bind-mount
+# source as root:root, which then blocks the non-root containers that need to
+# write there; chmod run as the invoking host user can't fix that (only root
+# can change another user's files), so this runs chmod inside a throwaway root container instead.
+ensure_writable_dir() {
+    local dir="$1"
+    mkdir -p "$dir"
+    docker run --rm -v "${dir}:/target" alpine:3.19 chmod -R 777 /target \
+        || warn "  Could not fix permissions on ${dir} via a root container — check Docker is usable."
+}
+
 _output_dir="$(awk -F= '/^OUTPUT_DIR=/{print $2}' .env 2>/dev/null | tr -d ' ')"
-_output_dir="${_output_dir:-./output}"
-mkdir -p "$_output_dir"
-chmod 777 "$_output_dir"
-ok "Pipeline output dir ready: ${_output_dir}"
+_hf_cache_dir="$(awk -F= '/^HF_CACHE_DIR=/{print $2}' .env 2>/dev/null | tr -d ' ')"
+_ollama_data_dir="$(awk -F= '/^OLLAMA_DATA_DIR=/{print $2}' .env 2>/dev/null | tr -d ' ')"
+_acestep_cache_dir="$(awk -F= '/^ACESTEP_CACHE_DIR=/{print $2}' .env 2>/dev/null | tr -d ' ')"
+ensure_writable_dir "${_output_dir:-./output}"
+ensure_writable_dir "${_hf_cache_dir:-${HOME}/.cache/huggingface}"
+ensure_writable_dir "${_ollama_data_dir:-${HOME}/.ollama}"
+ensure_writable_dir "${_acestep_cache_dir:-${HOME}/.cache/acestep}"
+ok "Bind-mount host directories ready and writable"
 echo ""
 
 info "Starting services..."
@@ -529,7 +682,8 @@ echo "    GPU 0  →  FASHN inference server 0 (virtual try-on)"
 echo "    GPU 1  →  FASHN inference server 1 (virtual try-on)"
 echo "    GPU 2  →  Ollama LLM (OpenClaw agents)"
 echo "    GPU 3  →  ACE-Step (music generation)"
-echo "    CPU 80-95 → Lemonade TTS (Kokoro, pinned physical cores)"
+_final_cpuset="$(awk -F= '/^TTS_CPUSET=/{print $2}' .env 2>/dev/null | tr -d ' ')"
+echo "    CPU ${_final_cpuset:-unpinned} → Lemonade TTS (Kokoro)"
 echo ""
 echo "  Endpoints:"
 
@@ -540,8 +694,13 @@ LAN_IP="$(ip -4 -o addr show scope global 2>/dev/null | awk 'NR==1{print $4}' | 
 
 echo "    Frontend   →  http://localhost:${FRONTEND_PORT}"
 [ -n "$LAN_IP" ] && echo "    LAN        →  http://${LAN_IP}:${FRONTEND_PORT}"
+_final_tls="$(awk -F= '/^TLS_ENABLED=/{print $2}' .env 2>/dev/null | tr -d ' ')"
+if [ "${_final_tls:-0}" = "1" ]; then
+    echo "    HTTPS      →  https://localhost:${FRONTEND_PORT}  (same port as HTTP)"
+    [ -n "$LAN_IP" ] && echo "    HTTPS LAN  →  https://${LAN_IP}:${FRONTEND_PORT}  (voice input)"
+fi
 echo ""
-echo "  First boot: Ollama pulls the LLM on first agent call (~15 GB)."
+echo "  First boot: the ollama-init service auto-pulls the LLM (~15 GB)."
 echo "  Lemonade pulls Kokoro on first TTS request (~500 MB)."
 echo ""
 echo "  Useful commands:"

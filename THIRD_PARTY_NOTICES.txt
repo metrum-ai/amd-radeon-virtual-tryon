@@ -6379,3 +6379,12 @@ SOFTWARE.
 No source modifications to these frontend npm packages are made by this
 project.
 ---------------------------------------------------------
+
+Inter (variable font)
+https://github.com/rsms/inter
+
+Usage: Self-hosted UI body font (frontend/public/fonts/inter/), replacing a
+live fonts.googleapis.com @import that blocked the entire page render when that host was unreachable. Latin-subset WOFF2, unmodified.
+License: SIL Open Font License, Version 1.1
+License source: https://github.com/rsms/inter/blob/master/LICENSE.txt
+---------------------------------------------------------

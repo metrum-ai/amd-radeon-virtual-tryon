@@ -8,6 +8,7 @@ import remarkGfm from 'remark-gfm'
 import { Send, Mic } from 'lucide-react'
 import type { CustomerProfile, Garment, Message, PipelineCompletion } from '../types/vto'
 import { useAgentSpeech } from '../hooks/useAgentSpeech'
+import { safeRandomUUID } from '../lib/uuid'
 
 // Agent config — set `avatar` to the filename stem (no path, no .png) of the image in
 // frontend/public/assets/avatars/. Drop a new PNG there and update avatar to match.
@@ -552,6 +553,10 @@ const SpeechRecognitionAPI: typeof SpeechRecognition | null =
   (typeof window !== 'undefined' &&
     (window.SpeechRecognition || (window as Window & { webkitSpeechRecognition?: typeof SpeechRecognition }).webkitSpeechRecognition)) || null
 
+// The constructor above exists even outside a secure context, but actually starting it fails
+// silently-ish since mic access needs https:/localhost/127.0.0.1 — check isSecureContext up front instead.
+const MIC_BLOCKED_INSECURE_CONTEXT = typeof window !== 'undefined' && !window.isSecureContext
+
 export default function AgentChat({
   onRecommendations,
   onNewSession,
@@ -592,6 +597,7 @@ export default function AgentChat({
   const inputRef = useRef<HTMLInputElement>(null)
   const recognitionRef = useRef<SpeechRecognition | null>(null)
   const finalTranscriptRef = useRef('')
+  const micWarnedRef = useRef(false)
   const { isMuted, isSpeaking, setIsMuted, speak, stop: stopSpeech } = useAgentSpeech()
   const canUseInput = Boolean(customerProfile) && !isTyping
 
@@ -834,6 +840,19 @@ export default function AgentChat({
       return
     }
 
+    if (MIC_BLOCKED_INSECURE_CONTEXT) {
+      setShowTextInput(true)
+      if (!micWarnedRef.current) {
+        micWarnedRef.current = true
+        setMessages(prev => [...prev, {
+          id: `r${Date.now()}`, role: 'agent', agent: 'FashionStylistAgent',
+          content: 'Voice input needs HTTPS or localhost — please use the text box instead.',
+          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        }])
+      }
+      return
+    }
+
     setShowTextInput(false)
     finalTranscriptRef.current = ''
 
@@ -993,7 +1012,11 @@ export default function AgentChat({
               <button
                 onClick={handleMicToggle}
                 disabled={!canUseInput}
-                title={!customerProfile ? 'Select the store customer first' : 'Speak to the agent'}
+                title={
+                  !customerProfile ? 'Select the store customer first' :
+                  MIC_BLOCKED_INSECURE_CONTEXT ? 'Voice input needs HTTPS or localhost' :
+                  'Speak to the agent'
+                }
                 style={{
                   position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)',
                   background: 'none', border: 'none', padding: 4,
@@ -1040,7 +1063,11 @@ export default function AgentChat({
           <button
             onClick={handleMicToggle}
             disabled={!canUseInput}
-            title={!customerProfile ? 'Select the store customer first' : micActive ? 'Stop listening' : 'Speak to the agent'}
+            title={
+              !customerProfile ? 'Select the store customer first' :
+              MIC_BLOCKED_INSECURE_CONTEXT ? 'Voice input needs HTTPS or localhost' :
+              micActive ? 'Stop listening' : 'Speak to the agent'
+            }
             style={{
               position: 'absolute',
               bottom: 16,
@@ -1246,7 +1273,7 @@ function InlineFeedback({ garment, sessionId }: { garment: Garment; sessionId: s
     if (submitting || submitted || selected === 0) return
     setSubmitting(true)
     try {
-      const tid = crypto.randomUUID()
+      const tid = safeRandomUUID()
       await fetch(`/api/v1/vto/history/${tid}/feedback`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1441,13 +1468,13 @@ function CustomerSelector({ onSelect }: { onSelect: (v: CustomerProfile) => void
                   ? 'linear-gradient(135deg, rgba(237,28,36,0.10), rgba(242,101,34,0.07))'
                   : 'var(--bg-elevated)',
                 border: `1.5px solid ${isHovered ? 'rgba(242,101,34,0.55)' : 'var(--border)'}`,
-                borderRadius: 16, cursor: 'pointer', width: 126,
+                borderRadius: 16, cursor: 'pointer', width: 'clamp(88px, 30%, 126px)',
                 transition: 'all 0.15s ease',
                 boxShadow: isHovered ? '0 6px 22px rgba(242,101,34,0.14)' : 'none',
               }}
             >
               <div style={{
-                width: 90, height: 116, borderRadius: 10,
+                width: '100%', aspectRatio: '90 / 116', borderRadius: 10,
                 overflow: 'hidden', background: 'var(--bg-surface)',
                 border: `1px solid ${isHovered ? 'rgba(242,101,34,0.3)' : 'var(--border)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',

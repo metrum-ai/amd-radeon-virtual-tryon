@@ -84,13 +84,13 @@ An internet connection is required for the first build and boot. The following a
 | ----- | ---- | ---- |
 | Docker base images (ROCm, FASHN, etc.) | ~30 GB | First `docker compose build` |
 | ACE-Step music generation model | ~5 GB | Pre-downloaded to the host before setup (see step 3) |
-| Ollama `qwen3.6:27b` LLM weights | ~15 GB | First agent interaction |
+| Ollama `qwen3.6:27b` LLM weights | ~15 GB | Automatically once Ollama is healthy (`ollama-init`) |
 | Lemonade Kokoro TTS model | ~500 MB | First TTS request |
 
 After the initial download, all assets are served locally and no internet access is required for day-to-day operation.
 
 > [!IMPORTANT]
-> **A Hugging Face token is required.** Visual search uses Meta's **[DINOv3](https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m)**, a **gated model**. While signed in, accept its license on the model page, then create a read token at <https://huggingface.co/settings/tokens> and supply it when `setup.sh` prompts (`HF_TOKEN`). 
+> **A Hugging Face token is required.** Visual search uses Meta's **[DINOv3](https://huggingface.co/facebook/dinov3-vits16-pretrain-lvd1689m)**, a **gated model**. While signed in, accept its license on the model page, then create a read token at <https://huggingface.co/settings/tokens> and supply it when `setup.sh` prompts (`HF_TOKEN`).
 
 ---
 
@@ -108,7 +108,7 @@ cd retail-virtual-tryon
 ### 2. Verify ROCm and GPU visibility
 
 ```bash
-rocm-smi
+amd-smi
 ```
 
 Confirm all 4 GPUs appear before proceeding.
@@ -154,7 +154,7 @@ curl http://localhost:5173/health
 
 ### 5. Access the application
 
-Use one of the following based on where the stack is running:
+Use one of the following based on where the stack is running. All three use the same port — `5173` by default, or whatever you set via `setup.sh`'s "Frontend port" prompt (`GATEWAY_HTTP_ALT_PORT` in `.env`).
 
 <ol>
   <li>
@@ -162,6 +162,14 @@ Use one of the following based on where the stack is running:
     <ol type="a">
       <li>No port forwarding required.</li>
       <li>Open <a href="http://localhost:5173">http://localhost:5173</a>.</li>
+    </ol>
+  </li>
+  <li>
+    <strong>Via the host's LAN IP</strong> (from the host itself, or from another device on the same network)
+    <ol type="a">
+      <li>Find the host's LAN IP — <code>setup.sh</code> prints it at the end of a successful run (<code>LAN → http://&lt;LAN_IP&gt;:5173</code>), or run <code>ip -4 addr</code> on the host yourself.</li>
+      <li>Open <code>http://&lt;LAN_IP&gt;:5173</code> — works the same whether the browser is on the host machine or on another device on the network.</li>
+      <li>Voice input works here too, as long as HTTPS is enabled (the default) — use <code>https://&lt;LAN_IP&gt;:5173</code> instead of <code>http://</code>. See the note below.</li>
     </ol>
   </li>
    <li>
@@ -188,7 +196,9 @@ Use one of the following based on where the stack is running:
   </li>
 </ol>
 
-> **Note:** On first agent interaction, Ollama pulls `qwen3.6:27b` (~15 GB). On first TTS request, Lemonade pulls the Kokoro model (~500 MB). Both are cached to the host directories configured in `.env`.
+> **Note:** A one-shot `ollama-init` service automatically pulls `qwen3.6:27b` (~15 GB) once Ollama is healthy, so LLM-backed features work without a manual `ollama pull`. On first TTS request, Lemonade pulls the Kokoro model (~500 MB). Both are cached to the host directories configured in `.env`.
+
+> **Note:** Voice input (microphone) requires a secure browser context — it works over `localhost`, an SSH tunnel, or `https://`, but **not** plain `http://` on a LAN IP, even when accessed from the host itself (browser restriction, not a bug). `setup.sh`'s HTTPS prompt defaults to **yes**, generating a self-signed cert so the frontend serves `https://` as well — your browser will show a one-time "not private" warning for the self-signed cert on first visit. This does **not** add a second port: nginx sniffs each connection and serves `http://` and `https://` on the same port (`5173` by default), so `https://<host>:5173/` just works once HTTPS is enabled. Answer "no" to the prompt to opt out and stay HTTP-only.
 
 ---
 
@@ -361,6 +371,8 @@ Full reference of every variable understood by the stack:
 | `RUSTFS_ACCESS_KEY` | — | Yes | RustFS / Milvus object store access key |
 | `RUSTFS_SECRET_KEY` | — | Yes | RustFS / Milvus object store secret key |
 | `HF_CACHE_DIR` | — | Yes | Host path bind-mounted as the HuggingFace model cache |
+| `HF_TOKEN` | — | Yes | Hugging Face read token for gated model access (DINOv3, FASHN) |
+| `GATEWAY_HTTP_ALT_PORT` | `5173` | No | Host port the frontend is exposed on; set via `setup.sh`'s "Frontend port" prompt |
 | `OLLAMA_DATA_DIR` | — | Yes | Host path bind-mounted as the Ollama model store |
 | `ACESTEP_BUILD_CONTEXT` | `virtual_tryon/fashion-pipeline` | No | Path to the directory containing `acestep.Dockerfile`; set automatically by `setup.sh` |
 | `ACESTEP_CACHE_DIR` | `~/.cache/acestep` | No | Host path bind-mounted as the ACE-Step model cache; created and set automatically by `setup.sh` |
@@ -395,10 +407,14 @@ Full reference of every variable understood by the stack:
 | `VTO_TTS_MODEL` | `kokoro-v1` | No | Lemonade TTS model |
 | `VTO_TTS_VOICE` | `af_bella` | No | Kokoro voice ID |
 | `VTO_TTS_TIMEOUT` | `300` | No | TTS request timeout in seconds |
+| `TTS_CPUSET` | auto-detected by `setup.sh` | No | CPU cores to pin Lemonade/Kokoro to (e.g. `1-16`); empty means unrestricted. Auto-computed from the host's logical CPU count instead of a fixed range |
 | `HSA_OVERRIDE_GFX_VERSION` | `12.0.1` | Yes | Required for gfx1201 (Radeon AI PRO R9700S) |
 | `ROCR_VISIBLE_DEVICES` | `0,1,2,3` | Yes | ROCm device mask — always all 4 GPUs |
 | `VIDEO_GID` | `44` | No | GPU device group GID for `/dev/dri` access; auto-detected by `setup.sh` |
 | `RENDER_GID` | `109` | No | GPU device group GID for `/dev/kfd` access; auto-detected by `setup.sh` |
+| `TLS_ENABLED` | `0` in this file; `setup.sh` defaults to enabling it | No | Whether the frontend serves `https://` (self-signed) as well as `http://`, on the same port — `setup.sh`'s HTTPS prompt defaults to yes; answer "no" to opt out |
+| `NGINX_CONF` | `./frontend/nginx.conf` | No | Which nginx config is mounted; `setup.sh` points this at `frontend/nginx.tls.conf` when HTTPS is enabled, which sniffs each connection to serve `http://` and `https://` on the same port |
+| `TLS_CERT_DIR` | disabled placeholder | No | Host directory holding the self-signed `tls.crt`/`tls.key`; written by `setup.sh` when TLS is enabled |
 
 ---
 
@@ -406,7 +422,7 @@ Full reference of every variable understood by the stack:
 
 ### Application
 
-- **First agent interaction is slow** — Ollama pulls `qwen3.6:27b` (~15 GB) on first call if the model is not already in `OLLAMA_DATA_DIR`. Subsequent calls load from the local cache.
+- **First stack startup is slow to reach full LLM readiness** — the `ollama-init` service pulls `qwen3.6:27b` (~15 GB) automatically once Ollama is healthy, if not already in `OLLAMA_DATA_DIR`; LLM-backed agent features are degraded until that pull completes. Subsequent startups load from the local cache.
 - **First TTS request is slow** — Lemonade downloads the Kokoro model (~500 MB) on first use.
 - **ACE-Step cold-start** — the `acestep` container has a 5-minute startup window while the model loads into GPU 3 memory. The health probe retries for 10 × 30 s before reporting unhealthy.
 - **First pipeline generation is slow** — the first try-on generation after stack startup typically takes 3–4 minutes as the FASHN diffusion models are loaded into GPU memory for the first time. 

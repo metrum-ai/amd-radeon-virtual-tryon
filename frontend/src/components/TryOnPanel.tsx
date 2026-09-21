@@ -44,9 +44,12 @@ export default function TryOnPanel({
   return (
     <div style={{ flex: 2, display: 'flex', flexDirection: 'column', background: 'var(--card)', overflow: 'hidden', minWidth: 0 }}>
       <PanelHeader>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* paddingRight reserves room for the Recent Try-Ons/Snapshots buttons,
+            which float on top of this header via position:absolute in App.tsx
+            and don't otherwise participate in this row's layout. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0, paddingRight: 320 }}>
           <AccentBar />
-          <span style={labelStyle}>Virtual Try-On View</span>
+          <span style={{ ...labelStyle, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>Virtual Try-On View</span>
         </div>
       </PanelHeader>
 

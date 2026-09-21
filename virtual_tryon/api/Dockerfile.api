@@ -19,7 +19,8 @@ RUN pip install --no-cache-dir "numpy==1.26.4"
 RUN pip install --no-cache-dir \
     torch==2.5.1 \
     torchvision==0.20.1 \
-    --index-url https://download.pytorch.org/whl/cpu
+    --index-url https://download.pytorch.org/whl/cpu \
+    --extra-index-url https://pypi.org/simple
 
 RUN pip install --no-cache-dir \
     "asyncpg==0.31.0" \

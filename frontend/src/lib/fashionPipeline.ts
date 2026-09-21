@@ -18,6 +18,14 @@ function pipelineVideoFilename(profile: CustomerProfile): string | null {
   return null
 }
 
+// The pipeline stores uploaded garments under a generated filename, which
+// carries no descriptive info for the styling-tips LLM — pass the catalog's
+// real name/color/gender/brand through separately so tips match the garment.
+function describeGarment(g: Garment): string {
+  const genderLabel = g.gender && g.gender !== 'unisex' ? `${g.gender}'s ` : ''
+  return `${genderLabel}${g.color} ${g.name} (${g.subcategory}, ${g.brand})`
+}
+
 async function uploadGarmentImage(garment: Garment): Promise<string> {
   const resp = await fetch(garment.image)
   if (!resp.ok) throw new Error(`Failed to fetch garment image: ${garment.image}`)
@@ -79,18 +87,23 @@ export async function runFashionPipeline({
   if (onePiece) {
     runBody.input_garment = garmentFilenames[garments.indexOf(onePiece)]
     runBody.garment_category = 'one-pieces'
+    runBody.styling_context = describeGarment(onePiece)
   } else if (top && bottom) {
     runBody.input_garment_top = garmentFilenames[garments.indexOf(top)]
     runBody.input_garment_bottom = garmentFilenames[garments.indexOf(bottom)]
+    runBody.styling_context = `${describeGarment(top)} + ${describeGarment(bottom)}`
   } else if (top) {
     runBody.input_garment = garmentFilenames[garments.indexOf(top)]
     runBody.garment_category = 'tops'
+    runBody.styling_context = describeGarment(top)
   } else if (bottom) {
     runBody.input_garment = garmentFilenames[garments.indexOf(bottom)]
     runBody.garment_category = 'bottoms'
+    runBody.styling_context = describeGarment(bottom)
   } else {
     runBody.input_garment = garmentFilenames[0]
     runBody.garment_category = garments[0]?.overlayCategory ?? 'tops'
+    if (garments[0]) runBody.styling_context = describeGarment(garments[0])
   }
 
   const runResp = await fetch('/pipeline/run', {

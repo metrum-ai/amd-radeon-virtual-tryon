@@ -28,6 +28,20 @@ RUN sed -i 's|checkpoint_dir = os.path.join(project_root, "checkpoints")|checkpo
     /opt/venv/lib/python3.12/site-packages/acestep/api/startup_model_init.py \
     /opt/venv/lib/python3.12/site-packages/acestep/api/http/model_init_service.py
 
+# Non-root user, matching every other GPU service (fashn0/1, pipeline). This
+# used to run as root, which left root-owned files in the HF cache shared
+# with vto-api — a non-root container could never write there afterward
+# (ISSUES.md Issue 6). Root-cause fix: don't write as root in the first place.
+RUN (getent group video >/dev/null || groupadd -g 44 video) && \
+    (getent group render >/dev/null || groupadd -g 109 render) && \
+    (_u1000="$(getent passwd 1000 | cut -d: -f1)"; \
+     [ -n "$_u1000" ] && [ "$_u1000" != "appuser" ] && userdel -r "$_u1000" 2>/dev/null || true) && \
+    useradd -m -u 1000 -s /bin/bash appuser && \
+    usermod -aG video,render appuser && \
+    mkdir -p /home/appuser/.cache/huggingface /tmp/acestep && \
+    chown -R appuser:appuser /app /home/appuser /tmp/acestep && \
+    chown -R appuser:appuser /opt/venv
+
 # gfx1201 = RDNA4 (RX 9070 / W9070)
 ENV ACESTEP_MODE=api \
     ACESTEP_LM_BACKEND=pt \
@@ -42,11 +56,13 @@ ENV ACESTEP_MODE=api \
     TORCH_ROCM_AOTRITON_ENABLE_EXPERIMENTAL=1 \
     ROCR_VISIBLE_DEVICES=2
 
-VOLUME ["/root/.cache/huggingface"]
+VOLUME ["/home/appuser/.cache/huggingface"]
 
 EXPOSE 8001
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=10 \
     CMD curl -f http://localhost:${ACESTEP_API_PORT}/health || exit 1
+
+USER appuser
 
 CMD ["acestep-api"]

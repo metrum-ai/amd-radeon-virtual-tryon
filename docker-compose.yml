@@ -271,10 +271,9 @@ services:
     container_name: vto_tts
     environment:
       LEMONADE_LLAMACPP: cpu
-    # Pin to 16 physical cores (80-95) on the Threadripper 9995WX.
-    # Kokoro TTS is CPU-only; cpuset prevents scheduler scatter across all 192 logical CPUs.
-    # lemonade-config.json also sets --cpu-strict 1 for the llamacpp backend.
-    cpuset: "80-95"
+    # Kokoro TTS is CPU-only; pinning avoids scheduler scatter across all logical CPUs.
+    # setup.sh auto-detects a safe range for TTS_CPUSET (empty = unrestricted).
+    cpuset: "${TTS_CPUSET:-}"
     cpu_shares: 1024
     healthcheck:
       test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:13305/api/v1/models')"]
@@ -285,7 +284,9 @@ services:
     logging: *default-logging
     restart: unless-stopped
     volumes:
-      - ${HF_CACHE_DIR}:/root/.cache/huggingface
+      # Own cache dir, not the shared HF_CACHE_DIR: this image runs as root
+      # and downloads Kokoro, a model nothing else uses, so isolating it avoids a permission conflict.
+      - ${LEMONADE_CACHE_DIR}:/root/.cache/huggingface
       - lemonade_llama:/opt/lemonade/llama
       - lemonade_recipe:/root/.cache/lemonade
       - ./virtual_tryon/configs/lemonade-config.json:/root/.cache/lemonade/config.json
@@ -328,10 +329,17 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "5173:5173"
+      # Host side is configurable via setup.sh's "Frontend port" prompt.
+      # Container-internal port stays 5173 (matches nginx.conf and the healthcheck below).
+      - "${GATEWAY_HTTP_ALT_PORT:-5173}:5173"
     volumes:
       - ./catalogue:/usr/share/nginx/output:ro
       - ./virtual_tryon/fashion-pipeline/demo-videos:/usr/share/nginx/demo-videos:ro
+      # Plain-HTTP by default; setup.sh's HTTPS prompt (on by default) points this at
+      # nginx.tls.conf instead, which sniffs each connection and serves http:// and
+      # https:// on the same port — no second port needed for mic/voice input over a LAN IP.
+      - ${NGINX_CONF:-./frontend/nginx.conf}:/etc/nginx/nginx.conf:ro
+      - ${TLS_CERT_DIR:-./frontend/tls/disabled-certs}:/etc/nginx/certs:ro
     depends_on:
       vto-api:
         condition: service_healthy
@@ -463,6 +471,22 @@ services:
     logging: *default-logging
     restart: unless-stopped
 
+  # One-shot: Ollama's API never auto-pulls a missing model on inference
+  # (only `ollama run` does), so this pulls OLLAMA_MODEL once Ollama is healthy, then exits.
+  ollama-init:
+    image: ollama/ollama:0.30.6-rocm
+    container_name: vto_ollama_init
+    environment:
+      OLLAMA_HOST: "http://ollama:11434"
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "ollama pull \"${OLLAMA_MODEL:-qwen3.6:27b}\""
+    depends_on:
+      ollama:
+        condition: service_healthy
+    logging: *default-logging
+    restart: "no"
+
   acestep:
     build:
       context: "${ACESTEP_BUILD_CONTEXT}"
@@ -485,17 +509,12 @@ services:
       ROCR_VISIBLE_DEVICES: "3"
       HF_TOKEN: "${HF_TOKEN}"
       ACESTEP_NO_INIT: "false"
-    command:
-      - bash
-      - -c
-      - |
-        sed -i 's|checkpoint_dir = os.path.join(project_root, "checkpoints")|checkpoint_dir = os.environ.get("ACESTEP_CHECKPOINTS_DIR", os.path.join(project_root, "checkpoints"))|' \
-          /opt/venv/lib/python3.12/site-packages/acestep/api/startup_model_init.py \
-          /opt/venv/lib/python3.12/site-packages/acestep/api/http/model_init_service.py
-        exec acestep-api
+    # The checkpoint_dir sed patch now happens once at build time in
+    # acestep.Dockerfile (as root, before USER appuser); redoing it here at
+    # runtime as non-root would fail with EPERM against that root-owned file.
     volumes:
       - ${ACESTEP_CACHE_DIR}:/app/acestep-models
-      - ${HF_CACHE_DIR}:/root/.cache/huggingface
+      - ${HF_CACHE_DIR}:/home/appuser/.cache/huggingface
       - ${ACESTEP_CACHE_DIR}:/opt/venv/lib/python3.12/site-packages/checkpoints
     devices:
       - /dev/kfd:/dev/kfd

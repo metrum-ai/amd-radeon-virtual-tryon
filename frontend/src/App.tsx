@@ -13,6 +13,7 @@ import {
   getCustomerVideo,
   runFashionPipeline,
 } from './lib/fashionPipeline'
+import { safeRandomUUID } from './lib/uuid'
 import type { CustomerProfile, Garment, PipelineCompletion, PipelinePreview, RecentTryOn } from './types/vto'
 
 export default function App() {
@@ -22,7 +23,7 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [agentRecommendations, setAgentRecommendations] = useState<Garment[]>([])
   const [sessionId, setSessionId] = useState<string>(() => (
-    sessionStorage.getItem('vtoSessionId') ?? crypto.randomUUID()
+    sessionStorage.getItem('vtoSessionId') ?? safeRandomUUID()
   ))
   const [recentTryOns, setRecentTryOns] = useState<RecentTryOn[]>([])
   const [recentOpen, setRecentOpen] = useState(false)
@@ -102,7 +103,7 @@ export default function App() {
   function handleNewSession() {
     const oldId = sessionId
     fetch(`/api/v1/vto/runtime/${oldId}`, { method: 'DELETE' }).catch(() => {})
-    const nextId = crypto.randomUUID()
+    const nextId = safeRandomUUID()
     sessionStorage.setItem('vtoSessionId', nextId)
     setSessionId(nextId)
       setAgentRecommendations([])
@@ -238,8 +239,7 @@ export default function App() {
           {/* Panels row */}
           <div
             style={{
-              display: 'grid',
-              gridTemplateColumns: 'minmax(360px, 4fr) minmax(520px, 6fr)',
+              display: 'flex',
               flex: 1,
               gap: 12,
               minHeight: 0,
@@ -255,7 +255,7 @@ export default function App() {
               completedPipeline={completedPipeline}
               selectedGarment={selectedGarments[0] ?? null}
             />
-            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0, gap: 12 }}>
+            <div style={{ flex: 3, position: 'relative', display: 'flex', flexDirection: 'column', minWidth: 0, minHeight: 0, gap: 12 }}>
               {/* Overlay button row */}
               <div style={{ position: 'absolute', top: 10, right: 12, zIndex: 20, display: 'flex', gap: 8 }}>
                 {(() => {

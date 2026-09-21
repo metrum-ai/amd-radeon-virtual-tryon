@@ -28,6 +28,7 @@ import shutil
 import tempfile
 import threading
 import time
+import traceback
 import uuid
 from pathlib import Path
 from queue import Queue
@@ -239,13 +240,18 @@ def _worker() -> None:
             # The worker is the single serial queue processor; if it dies the
             # whole pipeline wedges. Never let an unexpected error escape —
             # mark the job failed and keep draining the queue.
+            tb = traceback.format_exc()
+            # Print the full traceback so `docker compose logs pipeline` shows the real failure point.
+            print(f"[worker] job {job_id} failed:\n{tb}")
+            detail = f"{type(exc).__name__}: {exc}"
             with _lock:
                 if job_id in _jobs:
                     _jobs[job_id].update(
                         status="failed",
                         stage="failed",
-                        message=str(exc),
-                        error=str(exc),
+                        message=detail,
+                        error=detail,
+                        traceback=tb[-4000:],
                         updated_at=time.time(),
                     )
         finally:
@@ -339,12 +345,18 @@ def _execute(job_id: str, req: dict) -> None:
             job_info = dict(_jobs[job_id])
         _write_job_metadata(job_id, job_info)
     except Exception as exc:  # pylint: disable=broad-except
+        # This handler wraps the whole run_pipeline() call, so it's the one that
+        # actually fires for real pipeline failures.
+        tb = traceback.format_exc()
+        print(f"[_execute] job {job_id} failed:\n{tb}")
+        detail = f"{type(exc).__name__}: {exc}"
         with _lock:
             _jobs[job_id].update(
                 status="failed",
                 stage="failed",
-                message=str(exc),
-                error=str(exc),
+                message=detail,
+                error=detail,
+                traceback=tb[-4000:],
                 updated_at=time.time(),
             )
 
@@ -710,12 +722,16 @@ def run_multi(req: RunMultiRequest) -> dict:
                 job_info = dict(_jobs[job_id])
             _write_job_metadata(job_id, job_info)
         except Exception as exc:  # pylint: disable=broad-except
+            tb = traceback.format_exc()
+            print(f"[_spawn_outfit] job {job_id} failed:\n{tb}")
+            detail = f"{type(exc).__name__}: {exc}"
             with _lock:
                 _jobs[job_id].update(
                     status="failed",
                     stage="failed",
-                    message=str(exc),
-                    error=str(exc),
+                    message=detail,
+                    error=detail,
+                    traceback=tb[-4000:],
                     updated_at=time.time(),
                 )
         results[str(idx)] = {"job_id": job_id}

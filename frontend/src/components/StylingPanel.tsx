@@ -182,7 +182,7 @@ export default function StylingPanel({
   const pageRecs = recs.slice(safePage * ITEMS_PER_PAGE, (safePage + 1) * ITEMS_PER_PAGE)
 
   return (
-    <div style={{ height: 124, flexShrink: 0, display: 'flex', flexDirection: 'column', background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', minWidth: 0, overflow: 'hidden' }}>
+    <div style={{ flex: '0 1 124px', minHeight: 0, display: 'flex', flexDirection: 'column', background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', minWidth: 0, overflow: 'hidden' }}>
       {/* Header */}
       <div style={{ padding: '6px 10px', background: 'var(--bg-surface)', borderBottom: '1px solid var(--border)', flexShrink: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -243,7 +243,7 @@ export default function StylingPanel({
       <div style={{ flex: 1, minHeight: 0, overflowX: 'hidden', overflowY: 'hidden', padding: 8 }}>
         <div role="listbox" aria-multiselectable="true" style={{ display: 'flex', gap: 8, height: '100%' }}>
           {loading && Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} style={{ width: 218, flexShrink: 0, display: 'flex', alignItems: 'center', gap: 9, padding: '7px 8px', background: 'var(--elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', height: '100%' }}>
+            <div key={i} style={{ flex: '1 1 160px', maxWidth: 218, minWidth: 0, display: 'flex', alignItems: 'center', gap: 9, padding: '7px 8px', background: 'var(--elevated)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', height: '100%' }}>
               <Skel height={44} width={44} radius={6} />
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <Skel height={11} width="80%" />
@@ -327,8 +327,9 @@ function RecommendationRow({
         }
       }}
       style={{
-        width: 218,
-        flexShrink: 0,
+        flex: '1 1 160px',
+        maxWidth: 218,
+        minWidth: 0,
         display: 'flex',
         alignItems: 'center',
         gap: 9,
@@ -408,8 +409,8 @@ function GarmentDetailModal({
         style={{
           width: 'min(760px, 94vw)',
           maxHeight: '88vh',
-          display: 'grid',
-          gridTemplateColumns: 'minmax(260px, 1.1fr) minmax(220px, 0.9fr)',
+          display: 'flex',
+          flexWrap: 'wrap',
           background: 'var(--card)',
           border: '1px solid var(--border-light)',
           borderRadius: 'var(--radius-lg)',
@@ -418,7 +419,7 @@ function GarmentDetailModal({
           animation: 'agentPopOut 0.22s ease both',
         }}
       >
-        <div style={{ minHeight: 420, background: garment.gradient }}>
+        <div style={{ minHeight: 420, background: garment.gradient, flex: '1.1 1 260px', minWidth: 0 }}>
           {!imgError && (
             <img
               src={garment.image}
@@ -428,7 +429,7 @@ function GarmentDetailModal({
             />
           )}
         </div>
-        <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 14, flex: '0.9 1 220px', minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
             <div>
               <div style={{ fontSize: 11, color: 'var(--text-dim)', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>

@@ -208,7 +208,7 @@ export default function CatalogBrowser({
   }
 
   return (
-    <div style={{ height: 270, background: 'var(--bg-surface)', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+    <div style={{ flex: '0 1 270px', minHeight: 0, overflow: 'hidden', background: 'var(--bg-surface)', borderTop: '1px solid var(--border)', display: 'flex', flexDirection: 'column' }}>
 
       {/* ── Header ── */}
       <div style={{ padding: '6px 14px', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>

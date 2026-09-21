@@ -45,6 +45,12 @@ RUN pip install --no-cache-dir --no-deps \
         "uvicorn[standard]>=0.29.0" \
         "python-multipart>=0.0.9"
 
+# ── DWPose ROCm execution-provider patch ──────────────────────────────────────
+# fashn_vton's DWPose only ever requests "CUDAExecutionProvider", which ROCm's
+# onnxruntime doesn't have (it exposes "MIGraphXExecutionProvider" instead), so DWPose ran on CPU.
+COPY virtual_tryon/fashion-pipeline/patch_dwpose_provider.py /tmp/patch_dwpose_provider.py
+RUN python3 /tmp/patch_dwpose_provider.py && rm /tmp/patch_dwpose_provider.py
+
 # ── Commercially clean human-parser compatibility wrapper ────────────────────
 COPY virtual_tryon/fashion-pipeline/fashn_human_parser /app/fashn_human_parser
 ENV PYTHONPATH="/app:${PYTHONPATH}"

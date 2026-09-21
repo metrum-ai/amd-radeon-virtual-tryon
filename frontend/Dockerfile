@@ -24,10 +24,17 @@ LABEL version="1.0.0"
 COPY --from=build /app/dist /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY locations.conf /etc/nginx/locations.conf
+
+# Plain-HTTP nginx.conf baked in as the default; docker-compose bind-mounts
+# nginx.tls.conf over this same path instead when TLS is enabled via
+# setup.sh, so no image rebuild is needed to switch between them.
+RUN mkdir -p /etc/nginx/certs
 
 RUN chown -R nginx:nginx /usr/share/nginx/html && \
     chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /etc/nginx/certs && \
     touch /var/run/nginx.pid && \
     chown -R nginx:nginx /var/run/nginx.pid
 

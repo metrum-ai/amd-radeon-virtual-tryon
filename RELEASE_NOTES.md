@@ -5,6 +5,25 @@ SPDX-License-Identifier: MIT
 -->
 # Release Notes
 
+## v1.1
+
+### Updates
+
+* **Resilient image builds**: `setup.sh` now builds each service image independently instead of one all-or-nothing batch.
+* **Automatic LLM model pull**: Ollama's model now pulls itself automatically once the service is healthy.
+* **Auto-detected CPU pinning**: the TTS service's CPU pin range is now computed from the host's actual core count instead of a fixed range that only fit one specific machine.
+* **Self-signed HTTPS, on by default**: `setup.sh` now generates a self-signed certificate and serves the frontend over HTTPS as well, since voice input requires a secure browser context when accessed by LAN IP — enabled by default (opt out via the setup prompt).
+* **Global error boundary**: any unexpected rendering error now shows a recoverable "Something went wrong" screen with a reload option, instead of an unrecoverable blank page.
+
+### Minor Fixes
+
+* **`vto-api` build reliability**: resolved a pip dependency-resolution failure that previously made the API image fail to build at all.
+* **Shared-cache permission conflicts**: the ACE-Step music service now runs as a non-root user like the rest of the stack, and the TTS service uses its own isolated model cache, eliminating file-permission failures that could block the API or pipeline from starting.
+* **Blank-page crash on LAN access**: the app previously crashed on first load when opened via a LAN IP over plain HTTP; it now falls back gracefully and renders normally.
+* **Graceful microphone fallback**: when voice input isn't available (insecure context), the app now falls back to text input with a clear explanation instead of failing silently.
+
+---
+
 ## v1.0
 
 ### Features
@@ -38,8 +57,8 @@ SPDX-License-Identifier: MIT
 | redis[asyncio] | 8.0.0 | [MIT](https://spdx.org/licenses/MIT.html) |
 | Pillow | 12.2.0 | [HPND](https://spdx.org/licenses/HPND.html) |
 | pymilvus | 2.3.8 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
-| torch | 2.5.1 | [BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html) |
-| torchvision | 0.20.1 | [BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html) |
+| torch (vto-api, CPU) | 2.5.1 | [BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html) |
+| torchvision (vto-api, CPU) | 0.20.1 | [BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html) |
 | transformers | 4.57.6 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
 | fastmcp | 3.4.2 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
 | prometheus-client | 0.25.0 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
@@ -54,7 +73,9 @@ SPDX-License-Identifier: MIT
 | huggingface-hub | 1.19.0 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
 | tqdm | 4.67.3 | [MPL-2.0](https://spdx.org/licenses/MPL-2.0.html) AND [MIT](https://spdx.org/licenses/MIT.html) |
 | python-multipart | 0.0.32 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
-| DWPose | bundled in fashn_vton | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
+| DWPose | bundled in fashn-vton-1.5 @ `7c0f10a` | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
+
+> fashion-pipeline's floating (`>=`)-constrained dependencies (safetensors, huggingface-hub, Pillow, numpy, opencv-python-headless, tqdm, einops, matplotlib, onnxruntime, FastAPI, Uvicorn, python-multipart) are not pinned to an exact version in that image; the versions above reflect the last verified build and may drift on rebuild. fashion-pipeline and acestep also inherit their own PyTorch build (~2.10.0) from the ROCm base image rather than installing the `torch` row above — see Base Docker Images.
 
 #### System Libraries
 
@@ -78,6 +99,7 @@ SPDX-License-Identifier: MIT
 | TypeScript | 5.9.3 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
 | Vite | 5.4.21 | [MIT](https://spdx.org/licenses/MIT.html) |
 | pnpm | 9 | [MIT](https://spdx.org/licenses/MIT.html) |
+| Inter (self-hosted font, latin subset) | unpinned (fetched from fonts.gstatic.com) | [SIL OFL 1.1](https://scripts.sil.org/OFL) |
 
 #### Base Docker Images
 
@@ -92,7 +114,7 @@ SPDX-License-Identifier: MIT
 
 | Component | Version | License |
 |-----------|---------|---------|
-| TimescaleDB | 2.27.2 / PG 16 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) / [PostgreSQL](https://www.postgresql.org/about/licence/) |
+| TimescaleDB | 2.27.2 / PG 16 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html)¹ / [PostgreSQL](https://www.postgresql.org/about/licence/) |
 | Valkey | 8-alpine | [BSD-3-Clause](https://spdx.org/licenses/BSD-3-Clause.html) |
 | Milvus | v2.4.15 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
 | RustFS | 1.0.0-alpha.89 | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
@@ -109,13 +131,16 @@ SPDX-License-Identifier: MIT
 
 | Component | License |
 |-----------|---------|
-| `Qwen 3.6 27B` (LLM, via Ollama) | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
+| `Qwen 3.6 27B` (LLM, via Ollama) | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html)² |
 | `Kokoro TTS` (via Lemonade Server) | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
-| `ACE-Step` (music generation) | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
+| `ACE-Step` (music generation, unpinned — cloned at latest `main`) | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
 | `BAAI/bge-small-en-v1.5` (text embeddings) | [MIT](https://spdx.org/licenses/MIT.html) |
 | `facebook/dinov3-vits16-pretrain-lvd1689m` (visual embeddings) | [DINOv3 License (Meta)](https://ai.meta.com/resources/models-and-libraries/dinov3-license/) |
 | `FASHN-VTON-1.5` (garment diffusion) | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
 | `basso4/humanparsing` (human parsing ONNX model) | [Apache-2.0](https://spdx.org/licenses/Apache-2.0.html) |
+
+¹ Apache-2.0 covers TimescaleDB core; some Community Edition features (e.g. compression, continuous aggregates) ship under the separate Timescale License (TSL) instead — confirm which features this deployment actually enables before relying on a single label.
+² Qwen's license varies by model size/release; some checkpoints use Apache-2.0 while others use Alibaba's custom Qwen License — confirm against the specific `qwen3.6:27b` artifact pulled by Ollama.
 
 ---
 
