@@ -15,6 +15,21 @@ x-logging: &default-logging
 
 services:
 
+  # chmods bind-mount dirs before non-root services start, so a
+  # bare `docker compose up` (no setup.sh) can't leave them root-owned.
+  permissions-init:
+    image: alpine:3.19
+    container_name: vto_permissions_init
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "chmod -R 777 /mnt/output /mnt/hf-cache /mnt/ollama-data /mnt/acestep-cache"
+    volumes:
+      - ${OUTPUT_DIR:-./output}:/mnt/output
+      - ${HF_CACHE_DIR}:/mnt/hf-cache
+      - ${OLLAMA_DATA_DIR}:/mnt/ollama-data
+      - ${ACESTEP_CACHE_DIR}:/mnt/acestep-cache
+    restart: "no"
+
   # ------------------------------------------------------------
   # Infrastructure
   # ------------------------------------------------------------
@@ -245,6 +260,8 @@ services:
     volumes:
       - ${HF_CACHE_DIR}:/app/.cache/huggingface
     depends_on:
+      permissions-init:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
       valkey:
@@ -363,6 +380,34 @@ services:
   # Fashion pipeline — FASHN inference servers, Ollama, ACE-Step, pipeline API
   # GPU allocation: GPU 0 → fashn0, GPU 1 → fashn1, GPU 2 → ollama, GPU 3 → acestep
   # ------------------------------------------------------------
+  # Downloads FASHN weights once before fashn0/fashn1 start; when both downloaded, the
+  # lock-waiter deleted and re-fetched the file, crashing the other ("Missing model weights").
+  fashn-weights-init:
+    build:
+      context: .
+      dockerfile: virtual_tryon/fashion-pipeline/Dockerfile
+    container_name: vto_fashn_weights_init
+    image: fashion-fashn-server:latest
+    entrypoint:
+      - python
+      - /app/fashn_server.py
+    command:
+      - --weights-dir=/app/weights
+      - --download-only
+    depends_on:
+      permissions-init:
+        condition: service_completed_successfully
+    environment:
+      HF_TOKEN: "${HF_TOKEN}"
+    volumes:
+      - fashn_weights:/app/weights
+      - ${HF_CACHE_DIR}:/home/appuser/.cache/huggingface
+    # One-shot job: the image's curl healthcheck (port 7860) doesn't apply.
+    healthcheck:
+      disable: true
+    logging: *default-logging
+    restart: "no"
+
   fashn0:
     build:
       context: .
@@ -377,6 +422,11 @@ services:
       - --device=cuda:0
       - --port=7860
       - --host=0.0.0.0
+    depends_on:
+      permissions-init:
+        condition: service_completed_successfully
+      fashn-weights-init:
+        condition: service_completed_successfully
     environment:
       HSA_OVERRIDE_GFX_VERSION: "12.0.1"
       ROCR_VISIBLE_DEVICES: "0"
@@ -418,6 +468,11 @@ services:
       - --device=cuda:0
       - --port=7861
       - --host=0.0.0.0
+    depends_on:
+      permissions-init:
+        condition: service_completed_successfully
+      fashn-weights-init:
+        condition: service_completed_successfully
     environment:
       HSA_OVERRIDE_GFX_VERSION: "12.0.1"
       ROCR_VISIBLE_DEVICES: "1"
@@ -448,6 +503,9 @@ services:
   ollama:
     image: ollama/ollama:0.30.6-rocm
     container_name: vto_ollama
+    depends_on:
+      permissions-init:
+        condition: service_completed_successfully
     environment:
       HSA_OVERRIDE_GFX_VERSION: "12.0.1"
       ROCR_VISIBLE_DEVICES: "2,3"
@@ -493,6 +551,9 @@ services:
       dockerfile: acestep.Dockerfile
     container_name: vto_acestep
     image: fashion-acestep:latest
+    depends_on:
+      permissions-init:
+        condition: service_completed_successfully
     environment:
       ACESTEP_MODE: api
       ACESTEP_LM_BACKEND: pt
@@ -549,6 +610,8 @@ services:
       - --host=0.0.0.0
       - --port=8080
     depends_on:
+      permissions-init:
+        condition: service_completed_successfully
       fashn0:
         condition: service_healthy
       fashn1:

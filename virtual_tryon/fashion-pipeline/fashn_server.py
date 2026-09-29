@@ -245,9 +245,16 @@ def main() -> None:
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8010)
     ap.add_argument("--weights-dir", default="/app/weights")
+    # Used by fashn-weights-init: download once and exit, so fashn0/fashn1
+    # don't race each other on the shared fashn_weights volume.
+    ap.add_argument("--download-only", action="store_true",
+                    help="Download weights into --weights-dir and exit")
     args = ap.parse_args()
     _device = args.device
     _ensure_weights(args.weights_dir)
+    if args.download_only:
+        print(f"  Weights ready in {args.weights_dir}")
+        return
     print(f"  Loading TryOnPipeline on {_device} ...")
     _pipeline = TryOnPipeline(weights_dir=args.weights_dir, device=_device)
     print(f"  Ready — listening on {args.host}:{args.port}")

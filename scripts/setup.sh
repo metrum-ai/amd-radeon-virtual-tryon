@@ -553,46 +553,12 @@ ok "All images built"
 echo ""
 
 # ---------------------------------------------------------------------------
-# ACE-Step model pre-download (one-time)
-# ---------------------------------------------------------------------------
-_acestep_cache="${ACESTEP_CACHE_DIR:-${HOME}/.cache/acestep}"
-_hf_cache="${HF_CACHE_DIR:-${HOME}/.cache/huggingface}"
-if [ ! -f "${_acestep_cache}/acestep-v15-turbo/model.safetensors" ]; then
-    info "Downloading ACE-Step models (one-time, ~5 GB)..."
-    if ! docker run --rm \
-        -v "${_acestep_cache}:/app/acestep-models" \
-        -v "${_hf_cache}:/root/.cache/huggingface" \
-        -e HF_TOKEN="${HF_TOKEN}" \
-        fashion-acestep:latest \
-        python3 -c "
-from huggingface_hub import snapshot_download
-# Flat cache for docker-compose ACESTEP_CONFIG_PATH / ACESTEP_CHECKPOINTS_DIR
-snapshot_download(
-    'ACE-Step/Ace-Step1.5',
-    local_dir='/app/acestep-models',
-    local_dir_use_symlinks=False,
-)
-# HF hub cache for ACE-Step's internal from_pretrained() calls
-snapshot_download('ACE-Step/Ace-Step1.5')
-snapshot_download('Qwen/Qwen3-Embedding-0.6B')
-print('ACE-Step models downloaded.')
-"; then
-        warn "ACE-Step model download failed — music generation may be unavailable."
-        warn "You can retry later by running:"
-        warn "  docker run --rm -v ${_acestep_cache}:/app/acestep-models -v ${_hf_cache}:/root/.cache/huggingface -e HF_TOKEN=... fashion-acestep:latest python3 -c \"from huggingface_hub import snapshot_download; snapshot_download('ACE-Step/Ace-Step1.5', local_dir='/app/acestep-models', local_dir_use_symlinks=False); snapshot_download('ACE-Step/Ace-Step1.5'); snapshot_download('Qwen/Qwen3-Embedding-0.6B')\""
-    else
-        ok "ACE-Step models ready in ${_acestep_cache}"
-    fi
-else
-    ok "ACE-Step models already present in ${_acestep_cache}"
-fi
-echo ""
-
-# ---------------------------------------------------------------------------
 # Pre-create writable bind-mount host dirs. Docker creates a missing bind-mount
 # source as root:root, which then blocks the non-root containers that need to
 # write there; chmod run as the invoking host user can't fix that (only root
 # can change another user's files), so this runs chmod inside a throwaway root container instead.
+# This must run BEFORE the ACE-Step pre-download below: that download runs as
+# appuser (uid 1000) and writes into both cache dirs.
 ensure_writable_dir() {
     local dir="$1"
     mkdir -p "$dir"
@@ -609,6 +575,49 @@ ensure_writable_dir "${_hf_cache_dir:-${HOME}/.cache/huggingface}"
 ensure_writable_dir "${_ollama_data_dir:-${HOME}/.ollama}"
 ensure_writable_dir "${_acestep_cache_dir:-${HOME}/.cache/acestep}"
 ok "Bind-mount host directories ready and writable"
+echo ""
+
+# ---------------------------------------------------------------------------
+# ACE-Step model pre-download (one-time)
+# ---------------------------------------------------------------------------
+_acestep_cache="${ACESTEP_CACHE_DIR:-${HOME}/.cache/acestep}"
+_hf_cache="${HF_CACHE_DIR:-${HOME}/.cache/huggingface}"
+# The token lives in .env (written above by add_or_replace), which this script
+# never sources — reading it back keeps `set -u` from aborting the run here.
+_hf_token_val="$(env_file_value HF_TOKEN 2>/dev/null || true)"
+_hf_token_val="${_hf_token_val:-${_hf_token:-${HF_TOKEN:-}}}"
+if [ ! -f "${_acestep_cache}/acestep-v15-turbo/model.safetensors" ]; then
+    info "Downloading ACE-Step models (one-time, ~5 GB)..."
+    # acestep.Dockerfile runs as appuser, so HF_HOME is /home/appuser/...;
+    # mounting /root/... left downloads in the --rm'd container layer.
+    # Bare `-e HF_TOKEN` reads the token from the env, keeping it out of `ps`.
+    if ! HF_TOKEN="${_hf_token_val}" docker run --rm \
+        -v "${_acestep_cache}:/app/acestep-models" \
+        -v "${_hf_cache}:/home/appuser/.cache/huggingface" \
+        -e HF_TOKEN \
+        fashion-acestep:latest \
+        python3 -c "
+from huggingface_hub import snapshot_download
+# Flat cache for docker-compose ACESTEP_CONFIG_PATH / ACESTEP_CHECKPOINTS_DIR
+snapshot_download(
+    'ACE-Step/Ace-Step1.5',
+    local_dir='/app/acestep-models',
+    local_dir_use_symlinks=False,
+)
+# HF hub cache for ACE-Step's internal from_pretrained() calls
+snapshot_download('ACE-Step/Ace-Step1.5')
+snapshot_download('Qwen/Qwen3-Embedding-0.6B')
+print('ACE-Step models downloaded.')
+"; then
+        warn "ACE-Step model download failed — music generation may be unavailable."
+        warn "You can retry later by running:"
+        warn "  export HF_TOKEN=<your token>; docker run --rm -v ${_acestep_cache}:/app/acestep-models -v ${_hf_cache}:/home/appuser/.cache/huggingface -e HF_TOKEN fashion-acestep:latest python3 -c \"from huggingface_hub import snapshot_download; snapshot_download('ACE-Step/Ace-Step1.5', local_dir='/app/acestep-models', local_dir_use_symlinks=False); snapshot_download('ACE-Step/Ace-Step1.5'); snapshot_download('Qwen/Qwen3-Embedding-0.6B')\""
+    else
+        ok "ACE-Step models ready in ${_acestep_cache}"
+    fi
+else
+    ok "ACE-Step models already present in ${_acestep_cache}"
+fi
 echo ""
 
 info "Starting services..."

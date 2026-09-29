@@ -54,7 +54,8 @@ class RuntimeContextStore:
 
         """
         session_id = str(uuid.uuid4())
-        now = datetime.now(timezone.utc).isoformat()
+        now_dt = datetime.now(timezone.utc)
+        now = now_dt.isoformat()
         ctx: dict[str, Any] = {
             "session_id": session_id,
             "user_id": user_id,
@@ -70,8 +71,8 @@ class RuntimeContextStore:
             """,
             uuid.UUID(session_id),
             user_id,
-            now,
-            now,
+            now_dt,
+            now_dt,
             json.dumps(ctx["state"]),
         )
         await self._write_redis(session_id, ctx)
@@ -120,8 +121,8 @@ class RuntimeContextStore:
             return None
 
         ctx["state"].update(patch)
-        now = datetime.now(timezone.utc).isoformat()
-        ctx["last_activity"] = now
+        now_dt = datetime.now(timezone.utc)
+        ctx["last_activity"] = now_dt.isoformat()
 
         await self._db.execute(
             """
@@ -131,7 +132,7 @@ class RuntimeContextStore:
             """,
             uuid.UUID(session_id),
             json.dumps(ctx["state"]),
-            now,
+            now_dt,
         )
         await self._write_redis(session_id, ctx)
         return ctx

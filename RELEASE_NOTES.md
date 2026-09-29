@@ -5,6 +5,15 @@ SPDX-License-Identifier: MIT
 -->
 # Release Notes
 
+## v1.1.1
+
+### Fixes
+
+* **Reliable first-time setup on fresh hosts**: `setup.sh` no longer fails partway through the ACE-Step model download, and bind-mounted directories (model caches, try-on output) are no longer left root-owned — eliminating setup failures and permission errors that could block music generation or break "Generate Try-On".
+* **Runtime session API reliability**: fixed a database error that caused session creation and updates to fail, restoring reliable session handling.
+
+---
+
 ## v1.1
 
 ### Updates
